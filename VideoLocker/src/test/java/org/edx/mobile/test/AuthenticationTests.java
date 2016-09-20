@@ -70,18 +70,18 @@ public final class AuthenticationTests extends BaseTestCase {
         // Build a new dummy request to trigger authenticator
         Request request = new Request.Builder()
                 .url(mockServer.url("/dummy/endpoint/"))
-                .header("Authorization", "expired_token")
+                .header("Authorization", "Bearer thisIsAnExpiredToken")
                 .build();
 
         // Make request
         Response response = client.newCall(request).execute();
         assertEquals(HttpStatus.OK, response.code());
-        assertEquals("Bearer dummy", response.request().header("Authorization"));
+        assertEquals("Bearer thisIsAValidToken", response.request().header("Authorization"));
 
         // Assert the expired token request was sent
         RecordedRequest expiredRequest = mockServer.takeRequest();
         assertEquals("/dummy/endpoint/", expiredRequest.getPath());
-        assertEquals("expired_token", expiredRequest.getHeader("Authorization"));
+        assertEquals("Bearer thisIsAnExpiredToken", expiredRequest.getHeader("Authorization"));
 
         // Assert the authenticator requests for a new access token using the refresh token
         RecordedRequest refreshTokenRequest = mockServer.takeRequest();
@@ -93,7 +93,7 @@ public final class AuthenticationTests extends BaseTestCase {
         // Assert that the original request was made again with the new token.
         RecordedRequest refreshedRequest = mockServer.takeRequest();
         assertEquals("/dummy/endpoint/", refreshedRequest.getPath());
-        assertEquals("Bearer dummy", refreshedRequest.getHeader("Authorization"));
+        assertEquals("Bearer thisIsAValidToken", refreshedRequest.getHeader("Authorization"));
     }
 
     @Test
@@ -104,12 +104,12 @@ public final class AuthenticationTests extends BaseTestCase {
 
         Request request = new Request.Builder()
                 .url(mockServer.url("/dummy/endpoint/"))
-                .header("Authorization", "401_not_caused_by_expired_token")
+                .header("Authorization", "Bearer 401NotCauseByExpiredToken")
                 .build();
 
         Response response = client.newCall(request).execute();
         assertEquals(HttpStatus.UNAUTHORIZED, response.code());
-        assertEquals("401_not_caused_by_expired_token", response.request().header("Authorization"));
+        assertEquals("Bearer 401NotCauseByExpiredToken", response.request().header("Authorization"));
     }
 
     @Test
@@ -122,12 +122,12 @@ public final class AuthenticationTests extends BaseTestCase {
 
         Request request = new Request.Builder()
                 .url(mockServer.url("/dummy/endpoint/"))
-                .header("Authorization", "expired_token")
+                .header("Authorization", "Bearer thisIsAnExpiredToken")
                 .build();
 
         Response response = client.newCall(request).execute();
         assertEquals(HttpStatus.UNAUTHORIZED, response.code());
-        assertEquals("expired_token", response.request().header("Authorization"));
+        assertEquals("Bearer thisIsAnExpiredToken", response.request().header("Authorization"));
     }
 
     final Dispatcher dispatcher = new Dispatcher() {
@@ -145,15 +145,14 @@ public final class AuthenticationTests extends BaseTestCase {
                     response.setResponseCode(HttpStatus.OK).setBody(MockDataUtil.getMockResponse("post_oauth2_access_token"));
                 } else if (path.equals("/dummy/endpoint/")) {
                     switch (header) {
-                        case "expired_token":
+                        case "Bearer thisIsAnExpiredToken":
                             response.setResponseCode(HttpStatus.UNAUTHORIZED)
-                                    .addHeader("Authorization", "old_access_token")
                                     .setBody(MockDataUtil.getMockResponse("401_expired_token_body"));
                             break;
-                        case "Bearer dummy":
+                        case "Bearer thisIsAValidToken":
                             response.setResponseCode(HttpStatus.OK);
                             break;
-                        case "401_not_caused_by_expired_token":
+                        case "Bearer 401NotCauseByExpiredToken":
                             response.setResponseCode(HttpStatus.UNAUTHORIZED);
                             break;
                     }

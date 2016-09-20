@@ -65,6 +65,7 @@ public class OkHttpUtil {
                         BuildConfig.VERSION_NAME));
         if (isOAuthBased) {
             interceptors.add(new OauthHeaderRequestInterceptor(context));
+            builder.authenticator(new OauthRefreshTokenAuthenticator(context));
         }
         interceptors.add(new NewVersionBroadcastInterceptor());
         if (BuildConfig.DEBUG) {
@@ -72,9 +73,6 @@ public class OkHttpUtil {
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             interceptors.add(loggingInterceptor);
         }
-
-        builder.authenticator(new OauthRefreshTokenAuthenticator(context));
-
         return builder.build();
     }
 

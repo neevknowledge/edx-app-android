@@ -95,7 +95,7 @@ public class OauthRefreshTokenAuthenticator implements Authenticator {
     @NonNull
     private AuthResponse refreshAccessToken(AuthResponse currentAuth)
             throws IOException, HttpResponseStatusException {
-        OkHttpClient client = OkHttpUtil.getClient(context);
+        OkHttpClient client = OkHttpUtil.getOAuthBasedClient(context);
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)
                 .baseUrl(config.getApiHostURL())
