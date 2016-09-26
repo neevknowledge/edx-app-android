@@ -9,6 +9,7 @@ public class AppConstants {
     public static boolean videoListDeleteMode = false;
 
     public static final String VIDEOLIST_BACK_PRESSED = "offline_video_back_pressed";
+    public static final String NON_BREAKING_HYPHEN = "\u2011";
 
     public static final double MILLISECONDS_PER_SECOND = 1000.00;
 }
