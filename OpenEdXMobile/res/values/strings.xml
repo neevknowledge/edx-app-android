@@ -469,9 +469,9 @@
     <!-- Prompt leading user to create account screen -->
     <string name="sign_up_and_learn">Sign up and start learning</string>
     <!-- In Sign up screen -->
-    <string name="sign_up_with">Sign up with</string>
+    <string name="sign_up_with">Register with</string>
     <!-- In Sign up screen -->
-    <string name="or_sign_up_with_email">or sign up with email</string>
+    <string name="or_sign_up_with_email">Or register with email</string>
 
     <!-- New Logistration Launch screen text -->
     <!-- Button leading user to create account screen -->

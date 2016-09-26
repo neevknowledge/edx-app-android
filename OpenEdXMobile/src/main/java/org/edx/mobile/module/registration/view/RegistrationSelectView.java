@@ -19,6 +19,7 @@ class RegistrationSelectView implements IRegistrationFieldView {
     private RegistrationFormField mField;
     private View mView;
     protected RegistrationOptionSpinner mInputView;
+    private TextView mInstructionsView;
     private TextView mErrorView;
 
     public RegistrationSelectView(RegistrationFormField field, View view) {
@@ -27,6 +28,7 @@ class RegistrationSelectView implements IRegistrationFieldView {
         this.mView = view;
 
         this.mInputView = (RegistrationOptionSpinner) view.findViewById(R.id.input_spinner);
+        this.mInstructionsView = (TextView) view.findViewById(R.id.input_spinner_instructions);
         this.mErrorView = (TextView) view.findViewById(R.id.input_spinner_error);
 
         // set prompt
@@ -40,6 +42,8 @@ class RegistrationSelectView implements IRegistrationFieldView {
             }
         }
         mInputView.setItems(mField.getOptions(),defaultOption);
+
+        setInstructions(field.getInstructions());
 
         // hide error text view
         mErrorView.setVisibility(View.GONE);
@@ -76,6 +80,17 @@ class RegistrationSelectView implements IRegistrationFieldView {
     @Override
     public View getView() {
         return mView;
+    }
+
+    @Override
+    public void setInstructions(@Nullable String instructions) {
+        if (instructions != null && !instructions.isEmpty()) {
+            mInstructionsView.setVisibility(View.VISIBLE);
+            mInstructionsView.setText(instructions);
+        }
+        else {
+            mInstructionsView.setVisibility(View.GONE);
+        }
     }
 
     @Override

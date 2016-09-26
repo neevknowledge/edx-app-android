@@ -19,6 +19,7 @@ public interface IRegistrationFieldView {
     boolean hasValue();
     RegistrationFormField getField();
     View getView();
+    void setInstructions(@Nullable String instructions);
     void handleError(String errorMessage);
     boolean isValidInput();
     void setEnabled(boolean enabled);

@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="4dp"
-    android:paddingBottom="4dp"
+    android:paddingTop="@dimen/registration_field_vertical_padding"
+    android:paddingBottom="@dimen/registration_field_vertical_padding"
     android:orientation="vertical">
 
     <CheckBox
@@ -15,6 +15,12 @@
         android:textColorHint="@color/hint_grey_text"
         android:autoLink="all"
         tools:hint="enter something"/>
+
+    <TextView
+        android:id="@+id/checkbox_input_instructions"
+        style="@style/registration_instruction_message"
+        android:visibility="visible"
+        tools:text="error text here"/>
 
     <TextView
         android:id="@+id/checkbox_input_error"

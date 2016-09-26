@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="@dimen/registration_field_vertical_padding"
+    android:paddingBottom="@dimen/registration_field_vertical_padding"
     android:orientation="vertical">
 
     <org.edx.mobile.module.registration.view.RegistrationOptionSpinner
@@ -15,6 +17,12 @@
         android:paddingStart="@dimen/registration_spinner_horizontal_padding"
         android:paddingLeft="@dimen/registration_spinner_horizontal_padding"
         tools:targetApi="17"/>
+
+    <TextView
+        android:id="@+id/input_spinner_instructions"
+        style="@style/registration_instruction_message"
+        android:visibility="visible"
+        tools:text="error text here"/>
 
     <TextView
         android:id="@+id/input_spinner_error"

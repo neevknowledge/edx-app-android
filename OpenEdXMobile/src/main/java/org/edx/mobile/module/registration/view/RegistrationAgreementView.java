@@ -18,6 +18,7 @@ class RegistrationAgreementView implements IRegistrationFieldView {
     protected RegistrationFormField mField;
     private View mView;
     protected TextView mInputView;
+    private TextView mInstructionView;
     private TextView mErrorView;
     private IActionListener actionListener;
 
@@ -27,6 +28,7 @@ class RegistrationAgreementView implements IRegistrationFieldView {
         this.mView = view;
 
         this.mInputView = (TextView) view.findViewById(R.id.txt_input);
+        this.mInstructionView = (TextView)view.findViewById(R.id.txt_input_instruction);
         this.mErrorView = (TextView) view.findViewById(R.id.txt_input_error);
 
         // display label as HTML and text to be centered horizontally
@@ -41,6 +43,8 @@ class RegistrationAgreementView implements IRegistrationFieldView {
                 }
             }
         });
+
+        setInstructions(field.getInstructions());
 
         // hide error text view
         mErrorView.setVisibility(View.GONE);
@@ -83,6 +87,17 @@ class RegistrationAgreementView implements IRegistrationFieldView {
         }
         else {
             logger.warn("error message not provided, so not informing the user about this error");
+        }
+    }
+
+    @Override
+    public void setInstructions(@Nullable String instructions) {
+        if (instructions != null && !instructions.isEmpty()) {
+            mInstructionView.setVisibility(View.VISIBLE);
+            mInstructionView.setText(instructions);
+        }
+        else {
+            mInstructionView.setVisibility(View.GONE);
         }
     }
 

@@ -24,6 +24,7 @@ class RegistrationEditTextView implements IRegistrationFieldView {
     private View mView;
     protected TextInputLayout mTextInputLayout;
     protected TextInputEditText mTextInputEditText;
+    protected TextView mInstructionsTextView;
     protected TextView mErrorTextView;
 
     public RegistrationEditTextView(RegistrationFormField field, View view) {
@@ -33,6 +34,7 @@ class RegistrationEditTextView implements IRegistrationFieldView {
 
         mTextInputLayout = (TextInputLayout) view.findViewById(R.id.register_edit_text_til);
         mTextInputEditText = (TextInputEditText) view.findViewById(R.id.register_edit_text_tilEt);
+        mInstructionsTextView = (TextView) view.findViewById(R.id.input_instructions);
         mErrorTextView = (TextView) view.findViewById(R.id.input_error);
 
         // set max lines for this input to be 1
@@ -46,6 +48,8 @@ class RegistrationEditTextView implements IRegistrationFieldView {
             FilterArray[0] = new InputFilter.LengthFilter(mField.getRestriction().getMaxLength());
             mTextInputEditText.setFilters(FilterArray);
         }
+
+        setInstructions(field.getInstructions());
 
         // set hint
         mTextInputLayout.setHint(mField.getLabel());
@@ -84,6 +88,18 @@ class RegistrationEditTextView implements IRegistrationFieldView {
     @Override
     public View getView() {
         return mView;
+    }
+
+    @Override
+    public void setInstructions(@Nullable String instructions) {
+        if (!TextUtils.isEmpty(instructions)) {
+            Spanned result = Html.fromHtml(instructions);
+            mInstructionsTextView.setText(result);
+            mInstructionsTextView.setVisibility(View.VISIBLE);
+        }
+        else {
+            mInstructionsTextView.setVisibility(View.GONE);
+        }
     }
 
     @Override

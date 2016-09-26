@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="@dimen/registration_field_vertical_padding"
+    android:paddingBottom="@dimen/registration_field_vertical_padding"
     android:orientation="vertical">
 
     <android.support.design.widget.TextInputLayout
@@ -15,6 +17,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/input_instructions"
+        style="@style/registration_instruction_message"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/input_error"
