@@ -41,8 +41,6 @@
                     <TextView
                         android:id="@+id/course_detail_name"
                         style="@style/course_card_title"
-                        android:ellipsize="none"
-                        android:singleLine="false"
                         tools:text="Course Name" />
 
                     <TextView
@@ -86,7 +84,6 @@
         </FrameLayout>
 
         <View style="@style/gray_hairline_separator" />
-
 
         <LinearLayout
             android:id="@+id/dashboard_detail"
