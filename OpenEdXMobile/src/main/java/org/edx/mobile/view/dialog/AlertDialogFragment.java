@@ -13,7 +13,7 @@ import org.edx.mobile.R;
 /**
  * Note: This is a very simple implementation that only shows an {@link AlertDialog} with a given
  * message and an OK button without any listener.
- * <p/>
+ *
  * In the future, more customizability might be added as need.
  */
 
