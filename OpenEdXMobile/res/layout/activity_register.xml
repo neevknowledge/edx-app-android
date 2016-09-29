@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/social_auth_bottom_margin"
-                android:text="@string/sign_up_with" />
+                android:text="@string/register_with" />
 
             <include layout="@layout/panel_social_auth" />
 
@@ -43,7 +43,7 @@
                 android:id="@+id/or_signup_with_email_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/or_sign_up_with_email" />
+                android:text="@string/or_register_with_email" />
 
             <LinearLayout
                 android:id="@+id/required_fields_layout"

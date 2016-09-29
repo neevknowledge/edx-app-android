@@ -10,7 +10,7 @@ class RegistrationTextAreaView extends RegistrationEditTextView {
 
     // Number of lines for TextArea
     private static final int INIT_LINES = 1;
-    private static final int MAX_LINES = 5;
+    private static final int MAX_LINES = 7;
 
     public RegistrationTextAreaView(RegistrationFormField field, View view) {
         super(field, view);

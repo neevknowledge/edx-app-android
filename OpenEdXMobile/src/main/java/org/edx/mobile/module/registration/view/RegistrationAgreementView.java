@@ -14,10 +14,10 @@ import org.edx.mobile.module.registration.model.RegistrationFormField;
 
 class RegistrationAgreementView implements IRegistrationFieldView {
 
-    protected static final Logger logger = new Logger(RegistrationAgreementView.class);
-    protected RegistrationFormField mField;
+    private static final Logger logger = new Logger(RegistrationAgreementView.class);
+    private RegistrationFormField mField;
     private View mView;
-    protected TextView mInputView;
+    private TextView mInputView;
     private TextView mInstructionView;
     private TextView mErrorView;
     private IActionListener actionListener;

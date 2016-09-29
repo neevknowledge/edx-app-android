@@ -172,7 +172,6 @@
     <!-- Stray dimensions -->
     <dimen name="notification_settings_margin">12dp</dimen>
     <dimen name="fullscreen_message_max_width">240dp</dimen>
-    <dimen name="divider_with_text_margin">12dp</dimen>
 
     <!-- Unorganized -->
     <dimen name="edx_hairline">1px</dimen>
@@ -186,5 +185,5 @@
     <dimen name="vertical_input_padding">8dp</dimen>
     <dimen name="edx_button_height">40dp</dimen>
     <dimen name="button_horizontal_padding">22dp</dimen>
-
+    <dimen name="divider_with_text_margin">12dp</dimen>
 </resources>

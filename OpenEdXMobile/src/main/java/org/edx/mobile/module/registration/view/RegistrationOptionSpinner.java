@@ -29,11 +29,10 @@ public class RegistrationOptionSpinner extends Spinner {
     }
 
     public boolean hasValue(@Nullable String value){
-        boolean ret = false;
         if (adapter != null) {
-            ret = (getAdapterPosition(value) >= 0);
+            return (getAdapterPosition(value) >= 0);
         }
-        return ret;
+        return false;
     }
 
     public void select(@Nullable String value){
@@ -46,26 +45,26 @@ public class RegistrationOptionSpinner extends Spinner {
     }
 
     public @Nullable String getSelectedItemValue() {
-        String ret = null;
+        String value = null;
         RegistrationOption selected = (RegistrationOption)getSelectedItem();
         if (selected != null) {
-            ret = selected.getValue();
+            value = selected.getValue();
         }
-        return ret;
+        return value;
     }
 
     private int getAdapterPosition(@Nullable String input) {
-        int ret = -1;
+        int posiiton = -1;
         if (input != null && adapter != null) {
             for(int i=0 ; i<adapter.getCount() ; i++){
                 RegistrationOption item = adapter.getItem(i);
                 if (item != null && input.equals(item.toString())) {
-                    ret = i;
+                    posiiton = i;
                     break;
                 }
             }
         }
-        return ret;
+        return posiiton;
     }
 
     public void setItems(@NonNull List<RegistrationOption> options, @Nullable RegistrationOption defaultOption) {

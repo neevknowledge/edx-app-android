@@ -32,7 +32,7 @@ public class LandingScreenInteractor {
     }
 
     private ViewInteraction onRegistrationView() {
-        return onView(withText(R.string.sign_up_and_learn));
+        return onView(withText(R.string.register_and_learn));
     }
 
     private ViewInteraction onLogInView() {

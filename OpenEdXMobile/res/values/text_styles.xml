@@ -252,6 +252,7 @@
         <item name="android:paddingLeft">5dp</item>
     </style>
 
+    <!-- Registration Instruction Message below fields-->
     <style name="registration_instruction_message" parent="registration_error_message">
         <item name="android:textColor">@color/black</item>
     </style>

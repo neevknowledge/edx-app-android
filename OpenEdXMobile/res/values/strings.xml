@@ -467,11 +467,11 @@
     <!-- Prompt leading user to sign in screen -->
     <string name="already_have_an_account">Already have an account? Sign in</string>
     <!-- Prompt leading user to create account screen -->
-    <string name="sign_up_and_learn">Sign up and start learning</string>
-    <!-- In Sign up screen -->
-    <string name="sign_up_with">Register with</string>
-    <!-- In Sign up screen -->
-    <string name="or_sign_up_with_email">Or register with email</string>
+    <string name="register_and_learn">Register and start learning</string>
+    <!-- In Register screen -->
+    <string name="register_with">Register with</string>
+    <!-- In register screen -->
+    <string name="or_register_with_email">Or register with email</string>
 
     <!-- New Logistration Launch screen text -->
     <!-- Button leading user to create account screen -->

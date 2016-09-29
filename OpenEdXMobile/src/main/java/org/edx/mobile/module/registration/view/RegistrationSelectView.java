@@ -18,7 +18,7 @@ class RegistrationSelectView implements IRegistrationFieldView {
     protected static final Logger logger = new Logger(RegistrationEditTextView.class);
     private RegistrationFormField mField;
     private View mView;
-    protected RegistrationOptionSpinner mInputView;
+    private RegistrationOptionSpinner mInputView;
     private TextView mInstructionsView;
     private TextView mErrorView;
 

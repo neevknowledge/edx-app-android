@@ -17,7 +17,7 @@ class RegistrationCheckBoxView implements IRegistrationFieldView {
     protected static final Logger logger = new Logger(RegistrationCheckBoxView.class);
     private View mView;
     private RegistrationFormField mField;
-    protected CheckBox mInputView;
+    private CheckBox mInputView;
     private TextView mInstructionsView;
     private TextView mErrorView;
 
