@@ -2,6 +2,7 @@ package org.edx.mobile.view.custom;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -145,7 +146,14 @@ public class URLInterceptorWebViewClient extends WebViewClient {
             // open URL in external web browser
             // return true means the host application handles the url
             // this should open the URL in the browser with user's confirmation
-            BrowserUtil.open(activity, url);
+            if(url.contains(".pdf")){
+                Intent loadWebview = new Intent(activity, LoadCourseware.class);
+                loadWebview.putExtra("URL",url);
+                activity.startActivity(loadWebview);
+            }
+            else {
+                BrowserUtil.open(activity, url);
+            }
             return true;
         } else {
             // return false means the current WebView handles the url.
