@@ -91,7 +91,7 @@ public class CourseUnitWebViewFragment extends CourseUnitFragment {
                     public void onReceivedError(WebView view, int errorCode,
                                                 String description, String failingUrl) {
                         didReceiveError = true;
-                        hideLoadingProgress();
+//                        hideLoadingProgress();
                         pageIsLoaded = false;
                         ViewPagerDownloadManager.instance.done(CourseUnitWebViewFragment.this, false);
                         showErrorMessage(R.string.network_error_message,
@@ -110,8 +110,8 @@ public class CourseUnitWebViewFragment extends CourseUnitFragment {
                                 EdxCookieManager.getSharedInstance().tryToRefreshSessionCookie();
                                 break;
                         }
-                        showErrorMessage(R.string.network_error_message,
-                                FontAwesomeIcons.fa_exclamation_circle);
+//                        showErrorMessage(R.string.network_error_message,
+//                                FontAwesomeIcons.fa_exclamation_circle);
                     }
 
                     public void onPageFinished(WebView view, String url) {
