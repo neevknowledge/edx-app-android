@@ -6,6 +6,7 @@ buildscript {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 
+
     }
 
     dependencies {
@@ -89,6 +90,7 @@ def getVersionName = { ->
         logger.error("Could not determine version name", e)
     }
     // description.substring(description.indexOf("/") + 1).split("-")[0].trim()
+    return "2.7.0"
 }
 
 /**
@@ -117,7 +119,11 @@ task(version) << {
     println String.format('%s (%s)', getVersionName(), getVersionCode())
 }
 
-
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
+}
 dependencies {
     compile project (':android-iconify')
     // Note that we have the Font Awesome TTF file
@@ -159,8 +165,10 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
 
+
     // Google Firebase
     compile 'com.google.firebase:firebase-core:10.0.1'
+    compile 'com.github.timqi:SectorProgressView:94e630ebd2'
 
     // Segment Library
     compile('com.segment.analytics.android:analytics-core:3.4.0@aar') {
