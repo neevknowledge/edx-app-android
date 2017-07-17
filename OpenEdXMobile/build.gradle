@@ -88,7 +88,7 @@ def getVersionName = { ->
     catch (e) {
         logger.error("Could not determine version name", e)
     }
-    return description.substring(description.indexOf("/") + 1).split("-")[0].trim()
+    // description.substring(description.indexOf("/") + 1).split("-")[0].trim()
 }
 
 /**

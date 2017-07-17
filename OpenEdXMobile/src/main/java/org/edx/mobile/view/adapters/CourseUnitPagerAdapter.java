@@ -66,9 +66,11 @@ public class CourseUnitPagerAdapter extends FragmentStatePagerAdapter {
             unitFragment = CourseUnitOnlyOnYoutubeFragment.newInstance(unit);
         } else if (config.isDiscussionsEnabled() && unit instanceof DiscussionBlockModel) {
             unitFragment = CourseUnitDiscussionFragment.newInstance(unit, courseData);
-        } else if (!unit.isMultiDevice()) {
+        }
+        else if (!unit.isMultiDevice()) {
             unitFragment = CourseUnitMobileNotSupportedFragment.newInstance(unit);
-        } else if (unit.getType() != BlockType.VIDEO &&
+        }
+        else if (unit.getType() != BlockType.VIDEO &&
                 unit.getType() != BlockType.HTML &&
                 unit.getType() != BlockType.OTHERS &&
                 unit.getType() != BlockType.DISCUSSION &&

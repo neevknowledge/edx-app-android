@@ -3,6 +3,7 @@ package org.edx.mobile.view.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -220,6 +221,8 @@ public class CourseOutlineAdapter extends BaseAdapter {
         viewHolder.bulkDownload.setVisibility(View.INVISIBLE);
         viewHolder.rowTitle.setText(unit.getDisplayName());
 
+
+
         if (row.component instanceof VideoBlockModel) {
             final DownloadEntry videoData = ((VideoBlockModel) row.component).getDownloadEntry(storage);
             if (null != videoData) {
@@ -270,8 +273,14 @@ public class CourseOutlineAdapter extends BaseAdapter {
         viewHolder.bulkDownload.setVisibility(View.VISIBLE);
 
         viewHolder.rowSubtitlePanel.setVisibility(View.VISIBLE);
-        viewHolder.rowSubtitle.setVisibility(View.VISIBLE);
-        viewHolder.rowSubtitle.setText(videoData.getDurationReadable());
+
+        if(videoData.getDurationReadable().contains("00:00")){
+            viewHolder.rowSubtitle.setVisibility(View.GONE);
+        }
+        else {
+            viewHolder.rowSubtitle.setVisibility(View.VISIBLE);
+            viewHolder.rowSubtitle.setText(videoData.getDurationReadable());
+        }
 
         dbStore.getWatchedStateForVideoId(videoData.videoId,
                 new DataCallback<DownloadEntry.WatchedState>(true) {
@@ -418,11 +427,14 @@ public class CourseOutlineAdapter extends BaseAdapter {
         row.numOfVideoAndDownloadArea.setOnClickListener(listener);
     }
 
-    public View getHeaderView(int position, View convertView) {
+    public View  getHeaderView(int position, View convertView) {
         final SectionRow row = this.getItem(position);
         TextView titleView = (TextView) convertView.findViewById(R.id.row_header);
         View separator = convertView.findViewById(R.id.row_separator);
         titleView.setText(row.component.getDisplayName());
+
+        Log.e("Header ", titleView.getText().toString());
+
         if (position == 0) {
             separator.setVisibility(View.GONE);
         } else {

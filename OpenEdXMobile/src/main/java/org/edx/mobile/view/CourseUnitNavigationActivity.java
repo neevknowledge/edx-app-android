@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +74,7 @@ public class CourseUnitNavigationActivity extends CourseBaseActivity implements 
         pagerAdapter = new CourseUnitPagerAdapter(getSupportFragmentManager(),
                 environment.getConfig(), unitList, courseData, this);
         pager.setAdapter(pagerAdapter);
+
 
 
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -227,6 +229,7 @@ public class CourseUnitNavigationActivity extends CourseBaseActivity implements 
         PrefManager.UserPrefManager userPrefManager = new PrefManager.UserPrefManager(MainApplication.instance());
         selectedUnit.getRoot().fetchAllLeafComponents(leaves, EnumSet.allOf(BlockType.class));
         unitList.addAll(leaves);
+
         pagerAdapter.notifyDataSetChanged();
 
         ViewPagerDownloadManager.instance.setMainComponent(selectedUnit, unitList);

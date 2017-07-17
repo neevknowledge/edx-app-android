@@ -14,6 +14,8 @@ public class ApiConstants {
     public static final String USER_NAME = "username";
     public static final String GROUP_ID = "groupId";
     public static final String ORG_CODE = "org";
+    public static  String COURSE_URL = "";
+    public static  String EMAIL = "";
 
     public static final String URL_MY_USER_INFO ="/api/mobile/v0.5/my_user_info";
 
@@ -42,6 +44,11 @@ public class ApiConstants {
     public static final String TOKEN_TYPE_ACCESS = "access_token";
 
     public static final String TOKEN_TYPE_REFRESH = "refresh_token";
+
+    public static final String GET_SCHEDULE = "http://gunshot.edupristine.com/edx/scheduleapp/?course=";
+    public static final String AUTHORIZATION_TOKEN = "Token ceea5bb451ee9bfed3336ba89b0ae0c2b1162581";
+    public static final String POST_FEEDBACK = "http://gunshot.edupristine.com/edx/feedbackapp/?";
+
 
     @StringDef({TOKEN_TYPE_ACCESS, TOKEN_TYPE_REFRESH})
     @Retention(RetentionPolicy.SOURCE)
