@@ -76,6 +76,25 @@
             android:theme="@style/AppTheme.NoActionBar.TranslucentStatusBar" />
 
         <activity
+            android:name="org.edx.mobile.view.schedule.MySchedule"
+            android:label="My Schedule"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.TranslucentStatusBar" />
+
+        <activity
+            android:name="org.edx.mobile.view.progress.Progress"
+            android:label="@string/progress_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.TranslucentStatusBar"
+            />
+
+        <activity
+            android:name="org.edx.mobile.view.schedule.FeedBack"
+            android:label="Feedback"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.TranslucentStatusBar" />
+
+        <activity
             android:name="org.edx.mobile.view.CourseDashboardActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
