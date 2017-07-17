@@ -1,4 +1,4 @@
-package org.edx.mobile.view;
+package org.edx.mobile.view.data_holder;
 
 /**
  * Created by Sushil on 6/15/2017.

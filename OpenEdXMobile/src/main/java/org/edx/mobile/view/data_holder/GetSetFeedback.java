@@ -1,4 +1,4 @@
-package org.edx.mobile.view;
+package org.edx.mobile.view.data_holder;
 
 import java.util.ArrayList;
 
@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 
 public class GetSetFeedback {
-    static String email, course, batch_code, topic, faculty, fac_report_time, cls_end_time, fac_id, id, ws_id, ws_date, venue;
+    static String email, course, batch_code, topic, faculty, fac_report_time, cls_end_time, fac_id, ws_id, wsdate_id, ws_date, venue;
     static ArrayList<String> feedback= new ArrayList<>();
 
     public static String getEmail() {
@@ -74,12 +74,12 @@ public class GetSetFeedback {
         GetSetFeedback.fac_id = fac_id;
     }
 
-    public static String getId() {
-        return id;
+    public static String getWsdate_id() {
+        return wsdate_id;
     }
 
-    public static void setId(String id) {
-        GetSetFeedback.id = id;
+    public static void setWsdate_id(String wsdate_id) {
+        GetSetFeedback.wsdate_id = wsdate_id;
     }
 
     public static String getWs_id() {

@@ -1,6 +1,522 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp"
+    android:orientation="vertical"
+    android:background="@color/com_facebook_picker_search_bar_text">
 
-</LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please rate the following aspects of today's lecture" />
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbarStyle="@null"
+        android:layout_marginBottom="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+
+                android:padding="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="1. Instructor's knowledge/understanding of the subject" />
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="-20dp">
+
+                        <RadioButton
+                            android:id="@+id/rb_1_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Excellent" />
+
+                        <RadioButton
+                            android:id="@+id/rb_1_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Good" />
+
+                        <RadioButton
+                            android:id="@+id/rb_1_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Average" />
+
+                        <RadioButton
+                            android:id="@+id/rb_1_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Poor" />
+
+                        <RadioButton
+                            android:id="@+id/rb_1_5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Very Poor" />
+                    </RadioGroup>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:padding="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="2. Instructor's ability to explain key concepts" />
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="-20dp">
+
+                        <RadioButton
+                            android:id="@+id/rb_2_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Excellent" />
+
+                        <RadioButton
+                            android:id="@+id/rb_2_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Good" />
+
+                        <RadioButton
+                            android:id="@+id/rb_2_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Average" />
+
+                        <RadioButton
+                            android:id="@+id/rb_2_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Poor" />
+
+                        <RadioButton
+                            android:id="@+id/rb_2_5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Very Poor" />
+                    </RadioGroup>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:padding="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="3. Solving of relevant questions by the instructor" />
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="-20dp">
+
+                        <RadioButton
+                            android:id="@+id/rb_3_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Excellent" />
+
+                        <RadioButton
+                            android:id="@+id/rb_3_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Good" />
+
+                        <RadioButton
+                            android:id="@+id/rb_3_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Average" />
+
+                        <RadioButton
+                            android:id="@+id/rb_3_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Poor" />
+
+                        <RadioButton
+                            android:id="@+id/rb_3_5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Very Poor" />
+                    </RadioGroup>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:padding="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="4. Converage of key concepts by the instructor" />
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="-20dp">
+
+                        <RadioButton
+                            android:id="@+id/rb_4_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Excellent" />
+
+                        <RadioButton
+                            android:id="@+id/rb_4_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Good" />
+
+                        <RadioButton
+                            android:id="@+id/rb_4_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Average" />
+
+                        <RadioButton
+                            android:id="@+id/rb_4_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Poor" />
+
+                        <RadioButton
+                            android:id="@+id/rb_4_5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Very Poor" />
+                    </RadioGroup>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:padding="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="5. Content Quality" />
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="-20dp">
+
+                        <RadioButton
+                            android:id="@+id/rb_5_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Excellent" />
+
+                        <RadioButton
+                            android:id="@+id/rb_5_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Good" />
+
+                        <RadioButton
+                            android:id="@+id/rb_5_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Average" />
+
+                        <RadioButton
+                            android:id="@+id/rb_5_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Poor" />
+
+                        <RadioButton
+                            android:id="@+id/rb_5_5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Very Poor" />
+                    </RadioGroup>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:padding="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="6. Infrastructure rating" />
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="-20dp">
+
+                        <RadioButton
+                            android:id="@+id/rb_6_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Excellent" />
+
+                        <RadioButton
+                            android:id="@+id/rb_6_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Good" />
+
+                        <RadioButton
+                            android:id="@+id/rb_6_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Average" />
+
+                        <RadioButton
+                            android:id="@+id/rb_6_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Poor" />
+
+                        <RadioButton
+                            android:id="@+id/rb_6_5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Very Poor" />
+                    </RadioGroup>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:padding="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="7. Customer service rating" />
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="-20dp">
+
+                        <RadioButton
+                            android:id="@+id/rb_7_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Excellent" />
+
+                        <RadioButton
+                            android:id="@+id/rb_7_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Good" />
+
+                        <RadioButton
+                            android:id="@+id/rb_7_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Average" />
+
+                        <RadioButton
+                            android:id="@+id/rb_7_4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Poor" />
+
+                        <RadioButton
+                            android:id="@+id/rb_7_5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.80"
+                            android:scaleY="0.80"
+                            android:text="Very Poor" />
+                    </RadioGroup>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/bottom_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/btn_back"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_outline"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="Back"
+                    android:textColor="@color/white"
+                    android:visibility="invisible"/>
+
+                <Button
+                    android:id="@+id/btn_next"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="right"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_outline"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="Next"
+                    android:textColor="@color/white"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

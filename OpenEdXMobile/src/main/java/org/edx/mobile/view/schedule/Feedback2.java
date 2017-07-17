@@ -1,4 +1,4 @@
-package org.edx.mobile.view;
+package org.edx.mobile.view.schedule;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

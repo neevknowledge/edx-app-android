@@ -42,6 +42,7 @@ import org.edx.mobile.user.UserService;
 import org.edx.mobile.util.Config;
 import org.edx.mobile.util.EmailUtil;
 import org.edx.mobile.util.ResourceUtil;
+import org.edx.mobile.view.data_holder.ScheduleData;
 import org.edx.mobile.view.my_videos.MyVideosActivity;
 
 import java.util.HashMap;
@@ -150,10 +151,36 @@ public class NavigationFragment extends BaseFragment {
 
                 if (!(act instanceof MyCoursesListActivity)) {
                     environment.getRouter().showMyCourses(act);
-                    act.finish();
+                   act.finish();
                 }
             }
         });
+
+        drawerNavigationBinding.drawerOptionMySchedule.setVisibility(View.GONE);
+        //.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                final Activity act = getActivity();
+//                ((BaseFragmentActivity) act).closeDrawer();
+//                if (!(act instanceof MyVideosActivity)) {
+//                    environment.getRouter().showMySchedule(act);
+//                    //Finish need not be called if the current activity is MyCourseListing
+//                    // as on returning back from FindCourses,
+//                    // the student should be returned to the MyCourses screen
+//                    if (!(act instanceof MyCoursesListActivity)) {
+//                        act.finish();
+//                    }
+//                }
+
+//                Activity act = getActivity();
+//                ((BaseFragmentActivity) act).closeDrawer();
+//                Intent myScheduleIntent = new Intent(act, MySchedule.class);
+//                myScheduleIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//                startActivity(myScheduleIntent);
+//
+//            }
+//        });
 
         drawerNavigationBinding.drawerOptionMyVideos.setOnClickListener(new OnClickListener() {
             @Override
@@ -239,6 +266,8 @@ public class NavigationFragment extends BaseFragment {
             Map<String,CharSequence> map = new HashMap<>();
             map.put("username", profile.name);
             map.put("email", profile.email);
+            ScheduleData.setScheduler_email(profile.email);
+            ScheduleData.setuName(profile.name);
             drawerNavigationBinding.userInfoLayout.setContentDescription(ResourceUtil.getFormattedString(getResources(), R.string.navigation_header, map));
         }
 

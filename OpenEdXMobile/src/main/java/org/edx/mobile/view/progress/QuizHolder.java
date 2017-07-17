@@ -1,4 +1,4 @@
-package org.edx.mobile.view;
+package org.edx.mobile.view.progress;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package org.edx.mobile.view;
+package org.edx.mobile.view.schedule;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
