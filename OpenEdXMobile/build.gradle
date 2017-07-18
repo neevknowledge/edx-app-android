@@ -266,7 +266,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "org.edx.mobile"
+        applicationId "com.edupristine.lms"
         // minimum version is Android 4.0
         minSdkVersion 14
         targetSdkVersion 21

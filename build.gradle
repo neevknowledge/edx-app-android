@@ -15,10 +15,10 @@ project.ext {
 
     // dummy keystore configuration if not already defined
     if ( !project.properties.containsKey("RELEASE_STORE_FILE")) {
-        RELEASE_STORE_FILE = "edx-android-release-key.keystore"
-        RELEASE_STORE_PASSWORD = "*****"
-        RELEASE_KEY_ALIAS = "edx-android-release"
-        RELEASE_KEY_PASSWORD = "*****"
+        RELEASE_STORE_FILE = "EduFeed.jks"
+        RELEASE_STORE_PASSWORD = "india!@#"
+        RELEASE_KEY_ALIAS = "prashant"
+        RELEASE_KEY_PASSWORD = "india!@#"
     }
 }
 // task that creates 'artifacts' directory
