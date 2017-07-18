@@ -81,6 +81,10 @@
                 android:id="@+id/drawer_option_my_courses"
                 style="@style/drawer_option"
                 android:text="@string/label_my_courses" />
+            <TextView
+                android:id="@+id/drawer_option_my_schedule"
+                style="@style/drawer_option"
+                android:text="@string/label_my_schedule" />
 
             <TextView
                 android:id="@+id/drawer_option_my_videos"

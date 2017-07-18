@@ -25,7 +25,6 @@ import org.edx.mobile.R;
 import org.edx.mobile.http.ApiConstants;
 import org.edx.mobile.model.api.ProfileModel;
 import org.edx.mobile.view.adapters.ScheduleDetailAdapter;
-import org.edx.mobile.view.data_holder.BatchCode;
 import org.edx.mobile.view.data_holder.GetSetAnswer;
 import org.edx.mobile.view.data_holder.GetSetFeedback;
 import org.edx.mobile.view.data_holder.ScheduleData;
