@@ -21,6 +21,9 @@ public class VideoData extends BlockData {
     @SerializedName("encoded_videos")
     public EncodedVideos encodedVideos;
 
+    @SerializedName("video_length")
+    public String video_length;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -30,6 +33,7 @@ public class VideoData extends BlockData {
 
         if (duration != videoData.duration) return false;
         if (onlyOnWeb != videoData.onlyOnWeb) return false;
+        if (video_length != videoData.video_length) return false;
         if (!transcripts.equals(videoData.transcripts)) return false;
         return encodedVideos.equals(videoData.encodedVideos);
 

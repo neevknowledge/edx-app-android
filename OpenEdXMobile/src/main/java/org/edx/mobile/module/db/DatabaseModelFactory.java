@@ -32,6 +32,7 @@ public class DatabaseModelFactory {
         de.dmId = c.getLong(c.getColumnIndex(DbStructure.Column.DM_ID));
         de.downloaded = DownloadEntry.DownloadedState.values()[c.getInt(c.getColumnIndex(DbStructure.Column.DOWNLOADED))];
         de.duration = c.getLong(c.getColumnIndex(DbStructure.Column.DURATION));
+        de.video_length =c.getString((c.getColumnIndex(DbStructure.Column.video_length)));
         de.filepath = c.getString(c.getColumnIndex(DbStructure.Column.FILEPATH));
         de.id = c.getInt(c.getColumnIndex(DbStructure.Column.ID));
         de.size = c.getLong(c.getColumnIndex(DbStructure.Column.SIZE));
@@ -67,6 +68,7 @@ public class DatabaseModelFactory {
         e.section = vrm.getSequentialName();
         e.eid = vrm.getCourseId();
         e.duration = vrm.getSummary().getDuration();
+        e.video_length=vrm.getSummary().getVideo_length();
         e.size = vrm.getSummary().getSize();
         e.title = vrm.getSummary().getDisplayName();
         e.url = vrm.getSummary().getVideoUrl();
@@ -108,6 +110,7 @@ public class DatabaseModelFactory {
         e.videoId = block.getId();
         e.transcript = vrm.transcripts;
         e.lmsUrl = block.getBlockUrl();
+        e.video_length=vrm.video_length;
         e.isVideoForWebOnly = vrm.onlyOnWeb;
         return e;
     }

@@ -273,14 +273,40 @@ public class CourseOutlineAdapter extends BaseAdapter {
         viewHolder.bulkDownload.setVisibility(View.VISIBLE);
 
         viewHolder.rowSubtitlePanel.setVisibility(View.VISIBLE);
+        viewHolder.rowSubtitle.setVisibility(View.VISIBLE);
+        Log.e("Length ", videoData.getVideo_length());
+        if(videoData.getVideo_length().equalsIgnoreCase("0.0")){
+            viewHolder.rowSubtitle.setText("");
+        }else {
+            int time = (int) Double.parseDouble((videoData.getVideo_length()));
+            int sec = time % 60;
+            int min = (time / 60) % 60;
+            int hrs = (time / 60) / 60;
+            String h = "00", m = "00", s = "00";
+            if (sec < 10)
+                s = "0" + sec;
+            else
+                s = String.valueOf(sec);
 
-        if(videoData.getDurationReadable().contains("00:00")){
-            viewHolder.rowSubtitle.setVisibility(View.GONE);
+            if (min < 10)
+                m = "0" + min;
+            else
+                m = String.valueOf(min);
+
+            if (hrs < 10)
+                h = "0" + hrs;
+            else
+                h = String.valueOf(hrs);
+
+            viewHolder.rowSubtitle.setText(h + ":" + m + ":" + s);
         }
-        else {
-            viewHolder.rowSubtitle.setVisibility(View.VISIBLE);
-            viewHolder.rowSubtitle.setText(videoData.getDurationReadable());
-        }
+//        if(videoData.getDurationReadable().contains("00:00")){
+//            viewHolder.rowSubtitle.setVisibility(View.GONE);
+//        }
+//        else {
+//            viewHolder.rowSubtitle.setVisibility(View.VISIBLE);
+//            viewHolder.rowSubtitle.setText(videoData.getDurationReadable());
+//        }
 
         dbStore.getWatchedStateForVideoId(videoData.videoId,
                 new DataCallback<DownloadEntry.WatchedState>(true) {

@@ -25,6 +25,7 @@ public final class DbStructure {
         public static final String SIZE = "size";
         public static final String FILEPATH = "filepath";
         public static final String DURATION = "duration";
+        public static final String video_length = "video_length";
         public static final String WATCHED = "watched"; // watched, unwatched, partially watched
         public static final String DOWNLOADED = "downloaded"; // yes, no
         public static final String URL = "video_url";

@@ -49,7 +49,7 @@ public class DownloadEntry implements SectionItemInterface, VideoModel {
     public boolean isVideoForWebOnly; //default is FALSE
     public String lmsUrl;
     public TranscriptModel transcript;
-
+    public String video_length;
     @Inject
     IEdxEnvironment environment;
 
@@ -112,6 +112,9 @@ public class DownloadEntry implements SectionItemInterface, VideoModel {
             return "(Untitled)";
         }
         return title;
+    }
+    public String getVideo_length() {
+        return video_length;
     }
 
     @Override

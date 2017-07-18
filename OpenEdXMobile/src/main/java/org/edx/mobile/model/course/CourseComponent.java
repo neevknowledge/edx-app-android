@@ -26,6 +26,8 @@ public class CourseComponent implements IBlock, IPathNode {
     private boolean graded;
     private boolean multiDevice;
     private String blockUrl;
+    private double video_length;
+
     private String webUrl;
     private BlockCount blockCount;
     protected CourseComponent parent;
@@ -48,6 +50,7 @@ public class CourseComponent implements IBlock, IPathNode {
         this.graded = blockModel.graded;
         this.blockUrl = blockModel.studentViewUrl;
         this.webUrl = blockModel.lmsWebUrl;
+        this.video_length = blockModel.video_length;
         this.multiDevice =  blockModel.studentViewMultiDevice;
         this.format = blockModel.format;
         this.blockCount = blockModel.blockCounts == null ? new BlockCount() : blockModel.blockCounts;
@@ -356,6 +359,14 @@ public class CourseComponent implements IBlock, IPathNode {
     @Override
     public String getFormat() {
         return format;
+    }
+
+    public double getVideo_length() {
+        return video_length;
+    }
+
+    public void setVideo_length(double video_length) {
+        this.video_length = video_length;
     }
 
     @Override

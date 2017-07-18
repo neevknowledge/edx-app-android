@@ -154,6 +154,7 @@ public class CourseManager {
         model.setType(videoBlockModel.getType());
         model.setDisplayName(videoBlockModel.getDisplayName());
         model.setDuration((int)videoBlockModel.getData().duration);
+        model.setVideo_length(videoBlockModel.getData().video_length);
         model.setOnlyOnWeb(videoBlockModel.getData().onlyOnWeb);
         model.setId(videoBlockModel.getId());
         final VideoInfo videoInfo = videoBlockModel.getData().encodedVideos.getPreferredVideoInfo();

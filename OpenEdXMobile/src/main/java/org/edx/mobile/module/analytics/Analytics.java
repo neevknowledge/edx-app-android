@@ -385,6 +385,8 @@ public interface Analytics {
         String FORUM_ADD_RESPONSE = "Forum: Add Thread Response";
         String FORUM_VIEW_RESPONSE_COMMENTS = "Forum: View Response Comments";
         String FORUM_ADD_RESPONSE_COMMENT = "Forum: Add Response Comment";
+        String MY_PROGRESS = "My Progress";
+        String MY_SCHEDULE = "My Schedule";
     }
 
     interface Events {

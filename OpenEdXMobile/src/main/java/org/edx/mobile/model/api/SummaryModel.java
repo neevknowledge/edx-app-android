@@ -21,6 +21,8 @@ public class SummaryModel implements Serializable {
     private double duration;
     @SerializedName("only_on_web")
     public boolean onlyOnWeb;
+    @SerializedName("video_length")
+    private String video_length;
     private String id;
     private long size;
     private TranscriptModel transcripts;
@@ -78,6 +80,14 @@ public class SummaryModel implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void setVideo_length(String video_length) {
+        this.video_length = video_length;
+    }
+
+    public String getVideo_length() {
+        return video_length;
     }
     
     public long getSize() {
