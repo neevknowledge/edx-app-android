@@ -4,17 +4,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import org.edx.mobile.R;
 import org.edx.mobile.http.ApiConstants;
-import org.edx.mobile.view.BatchCode;
-import org.edx.mobile.view.adapters.ScheduleDetailAdapter;
+import org.edx.mobile.view.adapters.ScheduleAdapter;
 import org.edx.mobile.view.data_holder.ScheduleData;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,39 +28,60 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
-/**
- * Created by Sushil on 6/6/2017.
- */
-
-public class Schedule extends Fragment {
+public class PreSchedule extends Fragment {
     View v;
     RecyclerView r_view;
     RecyclerView.Adapter adapter;
+    RecyclerView.LayoutManager manager;
     ArrayList<ScheduleData> data= new ArrayList<>();
-
+    View loadingIndicator;
+    SwipeRefreshLayout srl;
+    LinearLayout no_schedule;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        v = inflater.inflate(R.layout.schedule, container, false);
+        v = inflater.inflate(R.layout.pre_schedule, container, false);
+
         r_view = (RecyclerView) v.findViewById(R.id.recycler_view);
-        r_view.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        manager = new LinearLayoutManager(getActivity());
+        r_view.setLayoutManager(manager);
         r_view.setHasFixedSize(true);
-        new Get_Schedule().execute("Get Schedule");
+
+        r_view.setVisibility(View.VISIBLE);
+
+        no_schedule=(LinearLayout) v.findViewById(R.id.no_schedule);
+        no_schedule.setVisibility(View.GONE);
+        loadingIndicator = v.findViewById(R.id.loading_indicator);
+
+        srl=(SwipeRefreshLayout)v.findViewById(R.id.swipe_container);
+
+        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Get_Schedule().execute("Get Schedule");
+                adapter.notifyDataSetChanged();
+            }
+        });
+        srl.setColorSchemeResources(R.color.edx_brand_primary_accent,
+                R.color.edx_brand_gray_x_back, R.color.edx_brand_gray_x_back,
+                R.color.edx_brand_gray_x_back);
+      new Get_Schedule().execute("Get Schedule");
+
         return v;
     }
-
-    public class Get_Schedule extends AsyncTask<String, String, String> {
+     public class Get_Schedule extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            loadingIndicator.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected String doInBackground(String... strings) {
-            ApiConstants.COURSE_URL = null;
+            ApiConstants.COURSE_URL = null;//ScheduleData.getCourse_URL();
             try {
-                ApiConstants.COURSE_URL = URLEncoder.encode(ScheduleData.getCourse_URL(),"utf-8");//""course-v1:EduPristine+DigitalMarketing+Digital-Marketing", "utf-8");
+                ApiConstants.COURSE_URL = URLEncoder.encode(ScheduleData.getCourse_URL(),"utf-8");//"course-v1:EduPristine+DigitalMarketing+Digital-Marketing", "utf-8");
             } catch (Exception e) {
                 Log.e("Course Url exception", e.getMessage());
             }
@@ -88,6 +110,7 @@ public class Schedule extends Fragment {
                         urlConnection.disconnect();
                     }
                 } else {
+                    Log.e("Response Code ", String.valueOf(responseCode));
                 }
             } catch (Exception e) {
                 Log.e("ERROR", e.getMessage(), e);
@@ -106,48 +129,30 @@ public class Schedule extends Fragment {
                 Log.i("INFO", response);
                 try {
                     JSONArray jsonArray = new JSONArray(response);
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONArray ary = jsonArray.getJSONArray(i);
-                        for (int j = 0; j < ary.length(); j++) {
-                            JSONObject object = ary.getJSONObject(j);
-                            ScheduleData gsScheduleData = new ScheduleData();
-//                            "name":"Aravind bharathi",
-//                                    "fid":19487,
-//                                    "code":"IBCNDM11",
-//                                    "course":"DM",
-//                                    "venue_details":"Redsun",
-//                                    "topic":"SEO-II",
-//                                    "start_time":"10:00 AM",
-//                                    "end_time":"03:00 PM",
-//                                    "batch_code":"IBCNDM11",
-//                                    "ws_date":"2017-02-26",
-//                                    "status":"Confirmed",
-//                                    "dateid":16
-                            if (BatchCode.getBatch_code().equalsIgnoreCase(object.getString("batch_code"))) {
-                                gsScheduleData.setBatch_code(object.getString("batch_code"));
-                                gsScheduleData.setWs_date(object.getString("ws_date"));
-                                gsScheduleData.setVenue_details(object.getString("venue_details"));
-                                gsScheduleData.setStart_time(object.getString("start_time"));
-                                gsScheduleData.setEnd_time(object.getString("end_time"));
-                                gsScheduleData.setTopic(object.getString("topic"));
-                                gsScheduleData.setFac_info(object.getString("name"));//fac.substring(fac.indexOf(":") + 1, fac.indexOf(",")));
-                                gsScheduleData.setStatus(object.getString("status"));
-                                gsScheduleData.setFac_id(String.valueOf(object.getInt("fid")));
-                                gsScheduleData.setWsdate_id(object.getString("dateid"));
-                                gsScheduleData.setWs_id(object.getString("id"));
-                                gsScheduleData.setFeedback(object.getString("feedback"));
-                                data.add(gsScheduleData);
-                            }
-                        }
+                    if(jsonArray.length()==0) {
+                        r_view.setVisibility(View.GONE);
+                        no_schedule.setVisibility(View.VISIBLE);
                     }
-                    adapter = new ScheduleDetailAdapter(getActivity(), data);
-                    r_view.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
+                    else {
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONArray ary = jsonArray.getJSONArray(i);
+                            JSONObject objBatchCode = ary.getJSONObject(i);
+                            ScheduleData sd = new ScheduleData();
+                            sd.setBatch_code(objBatchCode.getString("batch_code"));
+                            sd.setCourse(objBatchCode.getString("course"));
+                            data.add(sd);
+                        }
+                        adapter = new ScheduleAdapter(PreSchedule.this, data);
+                        r_view.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    }
 
                 } catch (JSONException e) {
                     Log.e("JSON Exception ", e.getMessage());
                 }
             }
+            loadingIndicator.setVisibility(View.GONE);
+            srl.setRefreshing(false);
         }
     }
 }

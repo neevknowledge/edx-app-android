@@ -29,6 +29,7 @@ import org.edx.mobile.util.images.ShareUtils;
 import org.edx.mobile.util.images.TopAnchorFillWidthTransformation;
 
 import org.edx.mobile.base.BaseFragment;
+import org.edx.mobile.view.data_holder.ScheduleData;
 
 public class CourseDashboardFragment extends BaseFragment {
     static public String TAG = CourseHandoutFragment.class.getCanonicalName();
@@ -57,6 +58,7 @@ public class CourseDashboardFragment extends BaseFragment {
         if (courseData != null) {
             isCoursewareAccessible = courseData.getCourse().getCoursewareAccess().hasAccess();
         }
+        ScheduleData.setCourse_URL(courseData.getCourse().getId());
     }
 
     @Override
@@ -143,18 +145,32 @@ public class CourseDashboardFragment extends BaseFragment {
                 }
             });
 
-            holder = createViewHolder(inflater, parent);
-
-            holder.typeView.setIcon(FontAwesomeIcons.fa_bullhorn);
-            holder.titleView.setText(R.string.announcement_title);
-            holder.subtitleView.setText(R.string.announcement_subtitle);
-            holder.rowView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (courseData != null)
-                        environment.getRouter().showCourseAnnouncement(getActivity(), courseData);
-                }
-            });
+//            holder = createViewHolder(inflater, parent);
+//
+//            holder.typeView.setIcon(FontAwesomeIcons.fa_bullhorn);
+//            holder.titleView.setText(R.string.announcement_title);
+//            holder.subtitleView.setText(R.string.announcement_subtitle);
+//            holder.rowView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (courseData != null)
+//                        environment.getRouter().showCourseAnnouncement(getActivity(), courseData);
+//                }
+//            });
+            if(courseData.getCourse().getName().contains("Online")){
+            }else {
+                holder = createViewHolder(inflater, parent);
+                holder.typeView.setIcon(FontAwesomeIcons.fa_calendar_o);
+                holder.titleView.setText(R.string.schedule_title);
+                holder.subtitleView.setText(R.string.schedule_subtitle);
+                holder.rowView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (courseData != null)
+                            environment.getRouter().showCourseSchedule(getActivity(), courseData);
+                    }
+                });
+            }
         } else {
             errorText.setText(R.string.course_not_started);
         }

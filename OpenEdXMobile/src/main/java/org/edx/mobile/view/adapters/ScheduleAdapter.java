@@ -7,9 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.edx.mobile.R;
+import org.edx.mobile.view.BatchCode;
 import org.edx.mobile.view.schedule.PreSchedule;
 import org.edx.mobile.view.schedule.Schedule;
-import org.edx.mobile.view.data_holder.BatchCode;
 import org.edx.mobile.view.data_holder.ScheduleData;
 
 import java.util.ArrayList;
