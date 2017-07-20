@@ -38,6 +38,16 @@
         android:label="@string/app_name"
         android:supportsRtl="${supportsRtl}"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.parse.SERVER_URL"
+            android:value="@string/parse_server_url" />
+        <meta-data
+            android:name="com.parse.APPLICATION_ID"
+            android:value="@string/parse_app_id" />
+        <meta-data
+            android:name="com.parse.CLIENT_KEY"
+            android:value="@string/parse_client_key" />
+
 
         <activity
             android:name="org.edx.mobile.view.SplashActivity"
@@ -292,6 +302,29 @@
         <meta-data android:name="firebase_analytics_collection_enabled" android:value="${firebaseEnabled}" />
 
         <service android:name="org.edx.mobile.services.DownloadSpeedService" />
+        <service android:name="com.parse.PushService" />
+        <receiver android:name="com.parse.ParsePushBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.parse.push.intent.RECEIVE" />
+                <action android:name="com.parse.push.intent.DELETE" />
+                <action android:name="com.parse.push.intent.OPEN" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <!--
+                IMPORTANT: Change "com.parse.starter" to match your app's package name.
+                -->
+                <category android:name="com.edupristine.lms" />
+            </intent-filter>
+        </receiver>
+        <meta-data android:name="com.parse.push.gcm_sender_id"
+            android:value="id:166119910372" />;
     </application>
 
 </manifest>

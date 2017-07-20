@@ -16,6 +16,8 @@ import com.google.inject.Module;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.newrelic.agent.android.NewRelic;
+import com.parse.Parse;
+import com.parse.ParseInstallation;
 
 import org.edx.mobile.BuildConfig;
 import org.edx.mobile.R;
@@ -65,6 +67,12 @@ public abstract class MainApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         init();
+        Parse.initialize(new Parse.Configuration.Builder(this)
+                .applicationId("BbVQfBVgde3puYM")
+                .server("http://gunshot.edupristine.com:1337/parse/")
+                .build()
+        );
+        ParseInstallation.getCurrentInstallation().saveInBackground();
     }
 
     /**
