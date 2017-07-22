@@ -17,6 +17,8 @@
 
     <!-- Enroll Now button text-->
     <string name="enroll_now_button_text">Enroll now</string>
+    <!-- Invitation Only button text-->
+    <string name="invitation_only_button_text">Invitation only</string>
     <!-- Effort field name -->
     <string name="effort_field_name">Effort:</string>
     <!-- When discovering courses, some courses have an externally hosted video that describes it.
@@ -33,8 +35,6 @@
 
     <!-- Description of button that will open the share course menu -->
     <string name="share_course_button">Share your course</string>
-    <!-- Share menu title -->
-    <string name="share_course_popup_header">Share this course via&#8230;</string>
     <!-- Share course -->
     <string name="share_course_message">I’m taking a course on {platform_name}! Check it out:</string>
 
@@ -51,8 +51,6 @@
     <string name="share_certificate_message">I just earned a Certificate on {platform_name}! Check it out: {certificate_url}</string>
     <!-- Tab of tab for certicate for finished course -->
     <string name="tab_label_certificate">Certificate</string>
-    <!-- Header for popup list of share targets -->
-    <string name="share_certificate_popup_header">Share your certificate via…</string>
 
     <!-- Data Usage Dialog -->
     <!-- Alert dialog error message shown when using a feature with a required Internet connection -->
@@ -102,6 +100,8 @@
     <string name="open_profile_button">Open your profile</string>
     <!-- Title of user's course list screen -->
     <string name="label_my_courses">My Courses</string>
+    <!-- Title of important course dates screen -->
+    <string name="label_course_dates">Course Dates and Deadlines</string>
     <!-- Title of user's downloaded videos list screen -->
     <string name="label_my_videos">My Videos</string>
     <!-- Title of Find Courses screen -->
@@ -152,10 +152,14 @@
 
     <!-- My Courses -->
     <!-- Row of course on dashboard screen -->
-    <string name="courseware_title">Courseware</string>
+    <string name="courseware_title">Course</string>
     <!-- Row of course on dashboard screen -->
     <!-- NOTE: TODO - not final one -->
     <string name="courseware_subtitle">Access videos and assignments</string>
+    <!-- Row title of videos on dashboard screen -->
+    <string name="videos_title">Videos</string>
+    <!-- Row subtitle of videos on dashboard screen -->
+    <string name="videos_subtitle">Watch course videos</string>
     <!-- Row of Discussion on dashboard screen -->
     <string name="discussion_title">Discussion</string>
     <!-- Row of Discussion on dashboard screen -->
@@ -168,9 +172,13 @@
     <string name="handouts_subtitle">Find important course information</string>
     <!-- Row of announcement on dashboard screen -->
     <string name="announcement_title">Announcements</string>
+    <!-- Title text for the important dates section on the course dashboard  -->
+    <string name="course_dates_title">Important Dates</string>
     <!-- Row of announcement on dashboard screen -->
     <!-- NOTE: TODO - not final one -->
     <string name="announcement_subtitle">Keep up with the latest news</string>
+    <!-- Subtitle text describing the important dates section on the course dashboard -->
+    <string name="course_dates_subtitle">Keep track of deadlines and stay on track</string>
     <!-- Accessible content description of school code label a course -->
     <string name="school_code">School Code</string>
     <!-- Accessible content description of course name label field -->
@@ -192,13 +200,17 @@
     <!-- Button for last accessed course section. Will be followed by course name -->
     <string name="last_accessed">Last Accessed</string>
     <!-- Label shown when no courseware content is available -->
-    <string name="no_chapter_text">No courseware is currently available.</string>
+    <string name="no_chapter_text">No course content is currently available.</string>
+    <!-- Label shown when no mobile-friendly videos are available in a course -->
+    <string name="no_videos_text">This course does not include any videos.</string>
     <!-- Label shown when user is enrolled in no courses -->
     <string name="no_courses_to_display">It looks like you are not enrolled in any courses yet.</string>
     <!-- Label shown when no announcements are available for a course -->
     <string name="no_announcements_to_display">There are currently no announcements for this course.</string>
     <!-- Label shown when no handouts are available for a course -->
     <string name="no_handouts_to_display">There are currently no handouts for this course.</string>
+    <!-- Label shown when no important dates are available for a course -->
+    <string name="no_course_dates_to_display">Course dates are not currently available.</string>
 
     <string name="no_schedule_to_display">There are currently no schedule.</string>
 
@@ -366,7 +378,7 @@
     <!-- Title of recent videos section -->
     <string name="my_recent_videos">Recent Videos</string>
     <!-- Label indicating user has no Internet connection -->
-    <string name="offline_text">Offline Mode</string>
+    <string name="offline_text">Offline</string>
     <!-- Label shown in videos section when user has no videos downloaded -->
     <string name="no_videos_to_display">You haven’t downloaded any videos.</string>
     <!-- Cancel video download -->
@@ -431,17 +443,13 @@
     <!-- Button label to bring up course finder -->
     <string name="find_course_text">Looking for a new challenge?</string>
     <!-- Button label to bring up course finder -->
-    <string name="find_course_btn_text">Find a mobile-friendly course</string>
+    <string name="find_course_btn_text">Find a Course</string>
     <!-- Message between sign in button and social login buttons -->
     <string name="or_sign_in_with">Or sign in with</string>
     <!-- Facebook login method -->
     <string name="facebook_text">Facebook</string>
     <!-- Google login method -->
     <string name="google_text">Google</string>
-    <!-- Message on course list -->
-    <string name="course_not_listed_text">Can’t find one of your courses?</string>
-    <!-- Accessible content description of course not listed button on Course list screen -->
-    <string name="course_not_listed_btn">Can’t find one of your courses button</string>
     <!-- Title of find course screen -->
     <string name="find_courses_title">Find Courses</string>
     <!-- Message shown when attempting to find courses with no Internet connection -->
@@ -509,6 +517,8 @@
 
     <!--  Email subject line when user attempts to submit feedback about the app -->
     <string name="email_subject">Customer Feedback</string>
+    <!--  Email subject line when a user attempts to submit a review using the app review workflow -->
+    <string name="review_email_subject">Customer Review</string>
     <!--  Submit Feedback app version text -->
     <string name="app_version">App Version: </string>
     <!--  Submit Feedback android version text -->
@@ -519,8 +529,7 @@
     <string name="insert_feedback">Feedback: </string>
 
     <!-- Message indicating num of video deleted. {video_count} is a number of videos deleted, like "3".  -->
-    <plurals
-        name="deleted_video">
+    <plurals name="deleted_video">
         <item quantity="one">{video_count} video deleted </item>
         <item quantity="other">{video_count} videos deleted</item>
     </plurals>
@@ -607,7 +616,24 @@
     <string name="share_accomplishment_button">Share your accomplishment</string>
     <!-- Text that pre-populates your post/email/SMS when sharing certificate -->
     <string name="share_accomplishment_message">I just earned a badge on {platform_name}! Check it out: {badge_url}</string>
-    <string name="label_my_schedule">My Schedule</string>
+    <!-- Question on the app rating dialog -->
+    <string name="rating_dialog_message">How would you rate the app?</string>
+    <!-- Dialog title for positive app review -->
+    <string name="rate_app_dialog_title">Rate the app</string>
+    <!-- Dialog message for positive app review -->
+    <string name="rate_app_dialog_message">Tell others what you think of the {platform_name} app by writing a quick review</string>
+    <!-- Dialog title for negative app review -->
+    <string name="feedback_dialog_title">Send Feedback?</string>
+    <!-- Dialog message for negative app review -->
+    <string name="feedback_dialog_message">Help us improve!</string>
+    <!-- accessibility label for rating bar -->
+    <string name="rating_bar">Rating control</string>
+    <!-- accessibility label for rating selection on rating bar -->
+    <string name="rating_bar_selection">{rating} out of {num_of_stars}</string>
+    <!-- Title of the Whats New screen e.g. Version 2.8.1 New Features -->
+    <string name="whats_new_title">Version {version_number} New Features</string>
+
+	<string name="label_my_schedule">My Schedule</string>
     <string name="schedule_title">My Schedule</string>
     <string name="schedule_subtitle">Find schedule and venue details here</string>
 
@@ -615,5 +641,4 @@
     <string name="parse_server_url">http://gunshot.edupristine.com:1337/parse</string>
     <string name="parse_app_id">BbVQfBVgde3puYM</string>
     <string name="parse_client_key">8cwYRtUPRvCT6sbUqHqYn9ztox4jhb</string>
-
 </resources>

@@ -21,8 +21,8 @@ import org.edx.mobile.discussion.DiscussionCommentPostedEvent;
 import org.edx.mobile.discussion.DiscussionService;
 import org.edx.mobile.discussion.DiscussionTextUtils;
 import org.edx.mobile.discussion.DiscussionThread;
-import org.edx.mobile.http.CallTrigger;
-import org.edx.mobile.http.ErrorHandlingCallback;
+import org.edx.mobile.http.callback.ErrorHandlingCallback;
+import org.edx.mobile.http.notifications.DialogErrorNotification;
 import org.edx.mobile.logger.Logger;
 import org.edx.mobile.module.analytics.Analytics;
 import org.edx.mobile.module.analytics.AnalyticsRegistry;
@@ -88,6 +88,9 @@ public class DiscussionAddCommentFragment extends BaseFragment {
         values.put(Analytics.Keys.TOPIC_ID, discussionThread.getTopicId());
         values.put(Analytics.Keys.THREAD_ID, discussionThread.getIdentifier());
         values.put(Analytics.Keys.RESPONSE_ID, discussionResponse.getIdentifier());
+        if (!discussionResponse.isAuthorAnonymous()) {
+            values.put(Analytics.Keys.AUTHOR, discussionResponse.getAuthor());
+        }
         analyticsRegistry.trackScreenView(Analytics.Screens.FORUM_ADD_RESPONSE_COMMENT,
                 discussionThread.getCourseId(), discussionThread.getTitle(), values);
     }
@@ -152,8 +155,8 @@ public class DiscussionAddCommentFragment extends BaseFragment {
                 editTextNewComment.getText().toString(), discussionResponse.getIdentifier());
         createCommentCall.enqueue(new ErrorHandlingCallback<DiscussionComment>(
                 getActivity(),
-                CallTrigger.USER_ACTION,
-                new ProgressViewController(createCommentProgressBar)) {
+                new ProgressViewController(createCommentProgressBar),
+                new DialogErrorNotification(getChildFragmentManager())) {
             @Override
             protected void onResponse(@NonNull final DiscussionComment thread) {
                 logger.debug(thread.toString());

@@ -3,6 +3,7 @@ package org.edx.mobile.view.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.TextViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -26,13 +27,13 @@ import org.edx.mobile.discussion.DiscussionService.VoteBody;
 import org.edx.mobile.discussion.DiscussionTextUtils;
 import org.edx.mobile.discussion.DiscussionThread;
 import org.edx.mobile.discussion.DiscussionThreadUpdatedEvent;
-import org.edx.mobile.http.CallTrigger;
-import org.edx.mobile.http.ErrorHandlingCallback;
+import org.edx.mobile.http.callback.ErrorHandlingCallback;
+import org.edx.mobile.http.notifications.DialogErrorNotification;
+import org.edx.mobile.model.api.EnrolledCoursesResponse;
 import org.edx.mobile.module.prefs.LoginPrefs;
 import org.edx.mobile.util.Config;
 import org.edx.mobile.util.ResourceUtil;
 import org.edx.mobile.util.UiUtil;
-import org.edx.mobile.view.common.TaskProgressCallback;
 import org.edx.mobile.view.view_holders.AuthorLayoutViewHolder;
 import org.edx.mobile.view.view_holders.DiscussionSocialLayoutViewHolder;
 import org.edx.mobile.view.view_holders.NumberResponsesViewHolder;
@@ -67,10 +68,16 @@ public class CourseDiscussionResponsesAdapter extends RecyclerView.Adapter imple
     private final Context context;
 
     @NonNull
+    private final FragmentManager fragmentManager;
+
+    @NonNull
     private final Listener listener;
 
     @NonNull
     private DiscussionThread discussionThread;
+
+    @NonNull
+    private EnrolledCoursesResponse courseData;
 
     private final List<DiscussionComment> discussionResponses = new ArrayList<>();
 
@@ -84,10 +91,15 @@ public class CourseDiscussionResponsesAdapter extends RecyclerView.Adapter imple
         static final int PROGRESS = 2;
     }
 
-    public CourseDiscussionResponsesAdapter(@NonNull Context context, @NonNull Listener listener, @NonNull DiscussionThread discussionThread) {
+    public CourseDiscussionResponsesAdapter(@NonNull Context context,
+                @NonNull FragmentManager fragmentManager, @NonNull Listener listener,
+                @NonNull DiscussionThread discussionThread,
+                @NonNull EnrolledCoursesResponse courseData) {
         this.context = context;
+        this.fragmentManager = fragmentManager;
         this.discussionThread = discussionThread;
         this.listener = listener;
+        this.courseData = courseData;
         RoboGuice.getInjector(context).injectMembers(this);
     }
 
@@ -182,9 +194,7 @@ public class CourseDiscussionResponsesAdapter extends RecyclerView.Adapter imple
                     discussionService.setThreadFlagged(discussionThread.getIdentifier(),
                             new FlagBody(!discussionThread.isAbuseFlagged()))
                             .enqueue(new ErrorHandlingCallback<DiscussionThread>(
-                                    context,
-                                    CallTrigger.USER_ACTION,
-                                    (TaskProgressCallback) null) {
+                                    context, null, new DialogErrorNotification(fragmentManager)) {
                                 @Override
                                 protected void onResponse(@NonNull final DiscussionThread topicThread) {
                                     discussionThread = discussionThread.patchObject(topicThread);
@@ -194,6 +204,7 @@ public class CourseDiscussionResponsesAdapter extends RecyclerView.Adapter imple
                             });
                 }
             });
+
             holder.discussionReportViewHolder.setReported(discussionThread.isAbuseFlagged());
         }
     }
@@ -207,9 +218,7 @@ public class CourseDiscussionResponsesAdapter extends RecyclerView.Adapter imple
                 discussionService.setThreadVoted(discussionThread.getIdentifier(),
                         new VoteBody(!discussionThread.isVoted()))
                         .enqueue(new ErrorHandlingCallback<DiscussionThread>(
-                                context,
-                                CallTrigger.USER_ACTION,
-                                (TaskProgressCallback) null) {
+                                context, null, new DialogErrorNotification(fragmentManager)) {
                             @Override
                             protected void onResponse(@NonNull final DiscussionThread updatedDiscussionThread) {
                                 discussionThread = discussionThread.patchObject(updatedDiscussionThread);
@@ -227,9 +236,7 @@ public class CourseDiscussionResponsesAdapter extends RecyclerView.Adapter imple
                 discussionService.setThreadFollowed(discussionThread.getIdentifier(),
                         new FollowBody(!discussionThread.isFollowing()))
                         .enqueue(new ErrorHandlingCallback<DiscussionThread>(
-                                context,
-                                CallTrigger.USER_ACTION,
-                                (TaskProgressCallback) null) {
+                                context, null, new DialogErrorNotification(fragmentManager)) {
                             @Override
                             protected void onResponse(@NonNull final DiscussionThread updatedDiscussionThread) {
                                 discussionThread = discussionThread.patchObject(updatedDiscussionThread);
@@ -304,6 +311,8 @@ public class CourseDiscussionResponsesAdapter extends RecyclerView.Adapter imple
 
         if (discussionThread.isClosed() && comment.getChildCount() == 0) {
             holder.addCommentLayout.setEnabled(false);
+        } else if (courseData.isDiscussionBlackedOut() && comment.getChildCount() == 0) {
+            holder.addCommentLayout.setEnabled(false);
         } else {
             holder.addCommentLayout.setEnabled(true);
             holder.addCommentLayout.setOnClickListener(new View.OnClickListener() {
@@ -331,9 +340,7 @@ public class CourseDiscussionResponsesAdapter extends RecyclerView.Adapter imple
                     discussionService.setCommentFlagged(comment.getIdentifier(),
                             new FlagBody(!comment.isAbuseFlagged()))
                             .enqueue(new ErrorHandlingCallback<DiscussionComment>(
-                                    context,
-                                    CallTrigger.USER_ACTION,
-                                    (TaskProgressCallback) null) {
+                                    context, null, new DialogErrorNotification(fragmentManager)) {
                                 @Override
                                 protected void onResponse(@NonNull final DiscussionComment comment) {
                                     discussionResponses.get(position - 1).patchObject(comment);
@@ -343,6 +350,7 @@ public class CourseDiscussionResponsesAdapter extends RecyclerView.Adapter imple
                             });
                 }
             });
+
             holder.discussionReportViewHolder.setReported(comment.isAbuseFlagged());
             holder.socialLayoutViewHolder.threadFollowContainer.setVisibility(View.INVISIBLE);
         }
@@ -358,9 +366,7 @@ public class CourseDiscussionResponsesAdapter extends RecyclerView.Adapter imple
                 discussionService.setCommentVoted(response.getIdentifier(),
                         new VoteBody(!response.isVoted()))
                         .enqueue(new ErrorHandlingCallback<DiscussionComment>(
-                                context,
-                                CallTrigger.USER_ACTION,
-                                (TaskProgressCallback) null) {
+                                context, null, new DialogErrorNotification(fragmentManager)) {
                             @Override
                             protected void onResponse(@NonNull final DiscussionComment comment) {
                                 discussionResponses.get(position - 1).patchObject(comment);
@@ -379,7 +385,7 @@ public class CourseDiscussionResponsesAdapter extends RecyclerView.Adapter imple
         int numChildren = response == null ? 0 : response.getChildCount();
 
         if (response.getChildCount() == 0) {
-            if (discussionThread.isClosed()) {
+            if (discussionThread.isClosed() || courseData.isDiscussionBlackedOut()) {
                 text = context.getString(R.string.discussion_add_comment_disabled_title);
                 icon = FontAwesomeIcons.fa_lock;
             } else {

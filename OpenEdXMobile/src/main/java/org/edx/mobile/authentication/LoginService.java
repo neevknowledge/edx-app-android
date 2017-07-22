@@ -4,14 +4,16 @@ import android.support.annotation.NonNull;
 
 import com.google.inject.Inject;
 
-import org.edx.mobile.http.ApiConstants;
-import org.edx.mobile.http.ApiConstants.TokenType;
+import org.edx.mobile.http.constants.ApiConstants;
+import org.edx.mobile.http.constants.ApiConstants.TokenType;
 import org.edx.mobile.model.api.ProfileModel;
 import org.edx.mobile.model.api.ResetPasswordResponse;
 import org.edx.mobile.module.prefs.LoginPrefs;
+import org.edx.mobile.module.registration.model.RegistrationDescription;
 
 import java.util.Map;
 
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -22,7 +24,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
-import static org.edx.mobile.http.ApiConstants.URL_MY_USER_INFO;
+import static org.edx.mobile.http.constants.ApiConstants.URL_MY_USER_INFO;
 
 public interface LoginService {
 
@@ -47,6 +49,10 @@ public interface LoginService {
     @FormUrlEncoded
     @POST(ApiConstants.URL_REGISTRATION)
     Call<ResponseBody> register(@FieldMap Map<String, String> parameters);
+
+    @NonNull
+    @GET(ApiConstants.URL_REGISTRATION)
+    Call<RegistrationDescription> getRegistrationForm();
 
     /**
      * Depending on the query parameters for this endpoint, a different action will be triggered
@@ -110,6 +116,8 @@ public interface LoginService {
     @POST(ApiConstants.URL_PASSWORD_RESET)
     Call<ResetPasswordResponse> resetPassword(@Field("email") String email);
 
+    @POST(ApiConstants.URL_LOGIN)
+    Call<RequestBody> login();
 
     /**
      * @return basic profile information for currently authenticated user.

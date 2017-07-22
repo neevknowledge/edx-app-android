@@ -14,9 +14,6 @@
     <!-- Required by app for preventing screen lock while playing a video -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-    <!-- Required by app for performing downloads without showing download notification -->
-    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
-
     <!-- Required by app for storing downloaded videos to the external storage -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -223,9 +220,16 @@
             android:theme="@style/AppTheme.NoActionBar.TranslucentStatusBar" />
 
         <activity
+            android:name="org.edx.mobile.view.CourseDatesActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.TranslucentStatusBar" />
+
+        <activity
             android:name=".view.CourseAnnouncementsActivity"
             android:label="@string/announcement_title"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.TranslucentStatusBar" />
 
         <activity
             android:name="org.edx.mobile.view.CertificateActivity"
@@ -268,12 +272,18 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
+            android:name=".whatsnew.WhatsNewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
             android:name=".view.dialog.WebViewActivity"
             android:screenOrientation="portrait" />
 
         <receiver android:name="org.edx.mobile.module.download.DownloadCompleteReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+                <action android:name="android.intent.action.DOWNLOAD_NOTIFICATION_CLICKED" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>

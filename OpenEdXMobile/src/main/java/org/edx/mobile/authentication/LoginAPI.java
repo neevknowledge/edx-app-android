@@ -8,10 +8,9 @@ import com.google.gson.JsonSyntaxException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import org.edx.mobile.exception.AuthException;
-import org.edx.mobile.http.ApiConstants;
-import org.edx.mobile.http.HttpResponseStatusException;
 import org.edx.mobile.http.HttpStatus;
+import org.edx.mobile.http.HttpStatusException;
+import org.edx.mobile.http.constants.ApiConstants;
 import org.edx.mobile.model.api.FormFieldMessageBody;
 import org.edx.mobile.model.api.ProfileModel;
 import org.edx.mobile.module.analytics.AnalyticsRegistry;
@@ -28,6 +27,8 @@ import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
+
+import static org.edx.mobile.http.util.CallUtil.executeStrict;
 
 @Singleton
 public class LoginAPI {
@@ -80,14 +81,10 @@ public class LoginAPI {
     public AuthResponse logInUsingEmail(@NonNull String email, @NonNull String password) throws Exception {
         final Response<AuthResponse> response = getAccessToken(email, password);
         if (!response.isSuccessful()) {
-            throw new AuthException(response.message());
+            throw new HttpStatusException(response);
         }
-        final AuthResponse data = response.body();
-        if (!data.isSuccess()) {
-            throw new AuthException(data.error);
-        }
-        finishLogIn(data, LoginPrefs.AuthBackend.PASSWORD, email.trim());
-        return data;
+        finishLogIn(response.body(), LoginPrefs.AuthBackend.PASSWORD, email.trim());
+        return response.body();
     }
 
     @NonNull
@@ -109,7 +106,7 @@ public class LoginAPI {
             throw new AccountNotLinkedException();
         }
         if (!response.isSuccessful()) {
-            throw new HttpResponseStatusException(response.code());
+            throw new HttpStatusException(response);
         }
         final AuthResponse data = response.body();
         if (data.error != null && data.error.equals(Integer.toString(HttpURLConnection.HTTP_UNAUTHORIZED))) {
@@ -194,17 +191,13 @@ public class LoginAPI {
                     // Looks like the response does not contain form validation errors.
                 }
             }
-            throw new HttpResponseStatusException(errorCode);
+            throw new HttpStatusException(response);
         }
     }
 
     @NonNull
     public ProfileModel getProfile() throws Exception {
-        Response<ProfileModel> response = loginService.getProfile().execute();
-        if (!response.isSuccessful()) {
-            throw new HttpResponseStatusException(response.code());
-        }
-        ProfileModel data = response.body();
+        ProfileModel data = executeStrict(loginService.getProfile());
         loginPrefs.storeUserProfile(data);
         return data;
     }

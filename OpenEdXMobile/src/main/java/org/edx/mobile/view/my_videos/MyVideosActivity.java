@@ -15,7 +15,6 @@ import org.edx.mobile.view.adapters.StaticFragmentPagerAdapter;
 
 public class MyVideosActivity extends BaseVideosDownloadStateActivity {
 
-    private View offlineBar;
     private StaticFragmentPagerAdapter adapter;
 
     @Override
@@ -34,10 +33,6 @@ public class MyVideosActivity extends BaseVideosDownloadStateActivity {
         // configure slider layout. This should be called only once and
         // hence is shifted to onCreate() function
         configureDrawer();
-
-        offlineBar = findViewById(R.id.offline_bar);
-
-        environment.getAnalyticsRegistry().trackScreenView(Analytics.Screens.MY_VIDEOS);
 
         // now init the tabs
         initializeTabs();
@@ -63,19 +58,15 @@ public class MyVideosActivity extends BaseVideosDownloadStateActivity {
         if (tabLayout != null) {
             tabLayout.setTabsFromPagerAdapter(adapter);
             tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(pager));
-            pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+            pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
+                @Override
+                public void onPageSelected(int position) {
+                    super.onPageSelected(position);
+                    final Analytics.OnEventListener listener =
+                            (Analytics.OnEventListener) adapter.getFragment(position);
+                    listener.fireScreenEvent();
+                }
+            });
         }
-    }
-
-    @Override
-    protected void onOffline() {
-        super.onOffline();
-        offlineBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    protected void onOnline() {
-        super.onOnline();
-        offlineBar.setVisibility(View.GONE);
     }
 }

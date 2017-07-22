@@ -2,6 +2,7 @@ package org.edx.mobile.profiles;
 
 import android.support.annotation.NonNull;
 
+import org.edx.mobile.interfaces.RefreshListener;
 import org.edx.mobile.module.analytics.AnalyticsRegistry;
 import org.edx.mobile.util.observer.Func1;
 import org.edx.mobile.util.observer.Observables;
@@ -10,7 +11,8 @@ import org.edx.mobile.view.ViewHoldingPresenter;
 
 import java.util.List;
 
-public class UserProfilePresenter extends ViewHoldingPresenter<UserProfilePresenter.ViewInterface> {
+public class UserProfilePresenter extends ViewHoldingPresenter<UserProfilePresenter.ViewInterface>
+        implements RefreshListener {
 
     @NonNull
     private final UserProfileInteractor userProfileInteractor;
@@ -37,16 +39,17 @@ public class UserProfilePresenter extends ViewHoldingPresenter<UserProfilePresen
     public void attachView(@NonNull final ViewInterface view) {
         super.attachView(view);
         view.setUsername(userProfileInteractor.getUsername());
-        view.setEditProfileMenuButtonVisible(userProfileInteractor.isViewingOwnProfile());
         view.showLoading();
         observeOnView(userProfileInteractor.observeProfile()).subscribe(new Observer<UserProfileViewModel>() {
             @Override
             public void onData(@NonNull UserProfileViewModel account) {
+                view.setEditProfileMenuButtonVisible(userProfileInteractor.isViewingOwnProfile());
                 view.showProfile(account);
             }
 
             @Override
             public void onError(@NonNull Throwable error) {
+                view.setEditProfileMenuButtonVisible(false);
                 view.showError(error);
             }
         });
@@ -83,6 +86,12 @@ public class UserProfilePresenter extends ViewHoldingPresenter<UserProfilePresen
     public void onEditProfile() {
         assert getView() != null;
         getView().navigateToProfileEditor(userProfileInteractor.getUsername());
+    }
+
+    @Override
+    public void onRefresh() {
+        userProfileInteractor.onRefresh();
+        userProfileTabsInteractor.onRefresh();
     }
 
     public interface ViewInterface {

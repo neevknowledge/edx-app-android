@@ -7,7 +7,6 @@ import org.edx.mobile.base.MainApplication;
 import org.edx.mobile.logger.Logger;
 import org.edx.mobile.model.Filter;
 import org.edx.mobile.model.api.IPathNode;
-import org.edx.mobile.module.storage.IStorage;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -21,6 +20,7 @@ import java.util.Locale;
 public class CourseComponent implements IBlock, IPathNode {
     protected final static Logger logger = new Logger(CourseComponent.class.getName());
     private String id;
+    private String blockId;
     private BlockType type;
     private String name;
     private boolean graded;
@@ -45,6 +45,7 @@ public class CourseComponent implements IBlock, IPathNode {
      */
     public CourseComponent(BlockModel blockModel, CourseComponent parent){
         this.id = blockModel.id;
+        this.blockId = blockModel.blockId;
         this.type = blockModel.type;
         this.name = blockModel.displayName;
         this.graded = blockModel.graded;
@@ -72,6 +73,16 @@ public class CourseComponent implements IBlock, IPathNode {
     @Override
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public String getBlockId() {
+        return blockId;
+    }
+
+    @Override
+    public void setBlockId(String blockId) {
+        this.blockId = blockId;
     }
 
     @Override
@@ -217,7 +228,14 @@ public class CourseComponent implements IBlock, IPathNode {
     /**
      * return all videos blocks under this node
      */
-    public List<VideoBlockModel> getVideos(){
+    public List<VideoBlockModel> getVideos() {
+        return (List<VideoBlockModel>) (List) getVideos(false);
+    }
+
+    /**
+     * return all the downloadable videos blocks under this node
+     */
+    public List<CourseComponent> getVideos(boolean downloadableOnly) {
         List<CourseComponent> videos = new ArrayList<>();
         fetchAllLeafComponents(videos, EnumSet.of(BlockType.VIDEO));
         // Confirm that these are actually VideoBlockModel instances.
@@ -226,13 +244,16 @@ public class CourseComponent implements IBlock, IPathNode {
         // the type is video. This should not actually happen in practice
         // though; this is just a safeguard to handle that unlikely case.
         for (Iterator<CourseComponent> videosIterator = videos.iterator();
-             videosIterator.hasNext();) {
+             videosIterator.hasNext(); ) {
             CourseComponent videoComponent = videosIterator.next();
-            if (!(videoComponent instanceof VideoBlockModel)) {
+            if (!(videoComponent instanceof VideoBlockModel) ||
+                    downloadableOnly && videoComponent.getDownloadableVideosCount() == 0) {
+                // Remove a video component if its not downloadable when we're only looking for the
+                // ones that are downloadable
                 videosIterator.remove();
             }
         }
-        return (List<VideoBlockModel>)(List)videos;
+        return videos;
     }
 
     /**

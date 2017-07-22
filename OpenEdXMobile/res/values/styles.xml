@@ -76,7 +76,7 @@
     <style name="AppTheme.Dialog.Alert" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorPrimary">@color/edx_brand_primary_base</item>
         <item name="colorPrimaryDark">@color/edx_brand_primary_dark</item>
-        <item name="colorAccent">@color/edx_brand_primary_accent</item>
+        <item name="colorAccent">@color/dialog_button_selector</item>
     </style>
 
     <!-- we need to change the color of the drawer arrow toggle -->
@@ -114,21 +114,6 @@
     <style name="MyActionBarTitleText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textColor">@color/white</item>
         <item name="fontPath">fonts/OpenSans-Semibold.ttf</item>
-    </style>
-
-    <style name="offline_bar">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">3dp</item>
-        <item name="android:background">@color/edx_brand_secondary_base</item>
-        <item name="android:visibility">gone</item>
-    </style>
-
-    <style name="offline_msg_bar">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">45dp</item>
-        <item name="android:background">@color/edx_brand_secondary_back</item>
-        <item name="android:textColor">@color/edx_brand_secondary_base</item>
-        <item name="android:visibility">gone</item>
     </style>
 
     <style name="separator_base">
@@ -388,7 +373,7 @@
 
     <style name="edX.Widget.EnrollButton" parent="edX.Widget.Button">
         <item name="android:minHeight">@dimen/edx_button_height</item>
-        <item name="android:textColor">@color/edx_white</item>
+        <item name="android:textColor">@drawable/edx_enroll_button_text_color</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:background">@drawable/edx_enroll_button</item>
         <item name="android:textSize">@dimen/edx_small</item>
@@ -401,6 +386,15 @@
         <item name="android:textColor">@color/edx_brand_primary_base</item>
         <item name="android:background">@drawable/edx_bordered_button</item>
         <item name="android:textSize">@dimen/edx_small</item>
+        <item name="android:paddingLeft">@dimen/button_horizontal_padding</item>
+        <item name="android:paddingRight">@dimen/button_horizontal_padding</item>
+    </style>
+
+    <style name="edX.Widget.RegularButton" parent="edX.Widget.Button">
+        <item name="android:minHeight">@dimen/edx_button_height</item>
+        <item name="android:textColor">@color/edx_brand_gray_base</item>
+        <item name="android:background">@drawable/gray_bordered_button_background</item>
+        <item name="android:textSize">@dimen/edx_base</item>
         <item name="android:paddingLeft">@dimen/button_horizontal_padding</item>
         <item name="android:paddingRight">@dimen/button_horizontal_padding</item>
     </style>
@@ -519,5 +513,9 @@
 
     <style name="edX.Widget.SegmentedControlSegment.End" parent="edX.Widget.SegmentedControlSegment">
         <item name="android:background">@drawable/edx_segmented_control_right_background</item>
+    </style>
+
+    <style name="edX.Widget.TextInputLayout.HintTextAppearance" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">@color/edx_brand_primary_base</item>
     </style>
 </resources>

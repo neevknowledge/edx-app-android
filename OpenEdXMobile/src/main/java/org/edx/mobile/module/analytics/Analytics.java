@@ -124,16 +124,6 @@ public interface Analytics {
     void trackBrowserLaunched(String url);
 
     /**
-     * This function is used to track Bulk Download from Sections
-     *
-     * @param section      - Section in which the subsection is present
-     * @param enrollmentId - Course under which the subsection is present
-     * @param videoCount   - no of videos started downloading
-     */
-    void trackSectionBulkVideoDownload(String enrollmentId,
-                                       String section, long videoCount);
-
-    /**
      * This function is used to track Bulk Download from Subsection
      *
      * @param section      - Section in which the subsection is present
@@ -227,9 +217,9 @@ public interface Analytics {
 
     void courseDetailShared(String courseId, String aboutUrl, ShareUtils.ShareType method);
 
-    void trackCourseComponentViewed(String blockId, String courseId);
+    void trackCourseComponentViewed(String blockId, String courseId, String minifiedBlockId);
 
-    void trackOpenInBrowser(String blockId, String courseId, boolean isSupported);
+    void trackOpenInBrowser(String blockId, String courseId, boolean isSupported, String minifiedBlockId);
 
     void trackProfileViewed(@NonNull String username);
 
@@ -241,6 +231,71 @@ public interface Analytics {
      * This resets the Identify user once the user has logged out
      */
     void resetIdentifyUser();
+
+    /**
+     * This function is used to track if user views the App Rating view.
+     *
+     * @param versionName Version name of app.
+     */
+    void trackAppRatingDialogViewed(String versionName);
+
+    /**
+     * This function is used to track if user cancels the App Rating view.
+     *
+     * @param versionName Version name of app.
+     */
+    void trackAppRatingDialogCancelled(String versionName);
+
+    /**
+     * This function is used to track if user submits rating on the App Rating view.
+     *
+     * @param versionName Version name of app.
+     * @param rating Rating given by user.
+     */
+    void trackUserSubmitRating(String versionName, int rating);
+
+    /**
+     * This function is used to track if user selects Send Feedback after rating the app.
+     *
+     * @param versionName Version name of app.
+     * @param rating Rating given by user.
+     */
+    void trackUserSendFeedback(String versionName, int rating);
+
+    /**
+     * This function is used to track if user rates the app and then selects Maybe Later,
+     * could be either from Feedback dialog or Rate The App dialog.
+     *
+     * @param versionName Version name of app.
+     * @param rating Rating given by user.
+     */
+    void trackUserMayReviewLater(String versionName, int rating);
+
+    /**
+     * This function is used to track if user gives positive rating and selects Rate The App option.
+     *
+     * @param versionName Version name of app.
+     * @param rating Rating given by user.
+     */
+    void trackRateTheAppClicked(String versionName, int rating);
+
+    /**
+     * This function is used to track if user presses the cross button on WhatsNew screen.
+     *
+     * @param versionName     Version name of app.
+     * @param totalViewed     The total number of screens a user viewed.
+     * @param currentlyViewed The screen being currently viewed.
+     * @param totalScreens    Total number of screens.
+     */
+    void trackWhatsNewClosed(@NonNull String versionName, int totalViewed, int currentlyViewed, int totalScreens);
+
+    /**
+     * This function is used to track if user presses the done button on WhatsNew screen.
+     *
+     * @param versionName  Version name of app.
+     * @param totalScreens Total number of screens.
+     */
+    void trackWhatsNewSeen(@NonNull String versionName, int totalScreens);
 
     interface Keys {
         String NAME = "name";
@@ -285,8 +340,16 @@ public interface Analytics {
         String TOPIC_ID = "topic_id";
         String THREAD_ID = "thread_id";
         String RESPONSE_ID = "response_id";
+        String AUTHOR = "author";
 
         String COMPONENT_VIEWED = "Component Viewed";
+
+        String APP_VERSION = "app_version";
+        String RATING = "rating";
+        // WhatsNew keys
+        String TOTAL_VIEWED = "total_viewed";
+        String CURRENTLY_VIEWED = "currently_viewed";
+        String TOTAL_SCREENS = "total_screens";
     }
 
     interface Values {
@@ -311,7 +374,6 @@ public interface Analytics {
         String FULLSREEN_TOGGLED = "edx.bi.video.screen.fullscreen.toggled";
         String BROWSER_LAUNCHED = "edx.bi.app.browser.launched";
         String SINGLE_VIDEO_DOWNLOAD = "edx.bi.video.download.requested";
-        String BULKDOWNLOAD_SECTION = "edx.bi.video.section.bulkdownload.requested";
         String BULK_DOWNLOAD_SUBSECTION = "edx.bi.video.subsection.bulkdownload.requested";
         String VIDEO_DOWNLOADED = "edx.bi.video.downloaded";
         String USERLOGOUT = "edx.bi.app.user.logout";
@@ -357,22 +419,36 @@ public interface Analytics {
         String CELL_DATA = "cell_data";
         String POSTS_ALL = "all_posts";
         String POSTS_FOLLOWING = "posts_following";
+        // App review event values
+        String APP_REVIEWS_CATEGORY = "app-reviews";
+        String APP_REVIEWS_VIEW_RATING = "edx.bi.app.app_reviews.view_rating";
+        String APP_REVIEWS_DISMISS_RATING = "edx.bi.app.app_reviews.dismiss_rating";
+        String APP_REVIEWS_SUBMIT_RATING = "edx.bi.app.app_reviews.submit_rating";
+        String APP_REVIEWS_SEND_FEEDBACK = "edx.bi.app.app_reviews.send_feedback";
+        String APP_REVIEWS_MAYBE_LATER = "edx.bi.app.app_reviews.maybe_later";
+        String APP_REVIEWS_RATE_THE_APP = "edx.bi.app.app_reviews.rate_the_app";
+        // WhatsNew event values
+        String WHATS_NEW_CATEGORY = "whats-new";
+        String WHATS_NEW_CLOSE = "edx.bi.app.whats_new.close";
+        String WHATS_NEW_DONE = "edx.bi.app.whats_new.done";
     }
 
     interface Screens {
         String COURSE_INFO_SCREEN = "Course Info";
         String LAUNCH_ACTIVITY = "Launch";
+        String REGISTER = "Register";
+        String LOGIN = "Login";
         String COURSE_DASHBOARD = "Course Dashboard";
         String COURSE_OUTLINE = "Course Outline";
         String COURSE_HANDOUTS = "Course Handouts";
         String COURSE_ANNOUNCEMENTS = "Course Announcements";
+        String COURSE_DATES = "Course Dates";
         String SECTION_OUTLINE = "Section Outline";
         String UNIT_DETAIL = "Unit Detail";
-        String CERTIFICATE = "Certificate";
+        String CERTIFICATE = "View Certificate";
         String DOWNLOADS = "Downloads";
         String FIND_COURSES = "Find Courses";
-        String LOGIN = "Login";
-        String MY_VIDEOS = "My Videos";
+        String MY_VIDEOS_COURSE_VIDEOS = "My Videos - Course Videos";
         String MY_VIDEOS_ALL = "My Videos - All Videos";
         String MY_VIDEOS_RECENT = "My Videos - Recent Videos";
         String MY_COURSES = "My Courses";
@@ -385,7 +461,16 @@ public interface Analytics {
         String FORUM_ADD_RESPONSE = "Forum: Add Thread Response";
         String FORUM_VIEW_RESPONSE_COMMENTS = "Forum: View Response Comments";
         String FORUM_ADD_RESPONSE_COMMENT = "Forum: Add Response Comment";
-        String MY_PROGRESS = "My Progress";
+        String PROFILE_VIEW = "Profile View";
+        String PROFILE_EDIT = "Profile Edit";
+        String PROFILE_CROP_PHOTO = "Crop Photo";
+        String PROFILE_CHOOSE_BIRTH_YEAR = "Choose Form Value Birth year";
+        String PROFILE_CHOOSE_LOCATION = "Choose Form Value Location";
+        String PROFILE_CHOOSE_LANGUAGE = "Choose Form Value Primary language";
+        String PROFILE_EDIT_TEXT_VALUE = "Edit Text Form Value";
+        String APP_REVIEWS_VIEW_RATING = "AppReviews: View Rating";
+        String WHATS_NEW = "WhatsNew: Whats New";
+		String MY_PROGRESS = "My Progress";
         String MY_SCHEDULE = "My Schedule";
     }
 
@@ -398,7 +483,6 @@ public interface Analytics {
         String SHOW_TRANSCRIPT = "Show Transcript";
         String HIDE_TRANSCRIPT = "Hide Transcript";
         String VIDEO_DOWNLOADED = "Video Downloaded";
-        String BULK_DOWNLOAD_SECTION = "Bulk Download Section";
         String BULK_DOWNLOAD_SUBSECTION = "Bulk Download Subsection";
         String SINGLE_VIDEO_DOWNLOAD = "Single Video Download";
         String SCREEN_TOGGLED = "Screen Toggled";
@@ -421,6 +505,16 @@ public interface Analytics {
         String PUSH_NOTIFICATION_TAPPED = "notification-tapped";
         String PROFILE_VIEWED = "Viewed a profile";
         String PROFILE_PHOTO_SET = "Set a profile picture";
+        // App review events
+        String APP_REVIEWS_VIEW_RATING = "AppReviews: View Rating";
+        String APP_REVIEWS_DISMISS_RATING = "AppReviews: Dismiss Rating";
+        String APP_REVIEWS_SUBMIT_RATING = "AppReviews: Submit Rating";
+        String APP_REVIEWS_SEND_FEEDBACK = "AppReviews: Send Feedback";
+        String APP_REVIEWS_MAYBE_LATER = "AppReviews: Maybe Later";
+        String APP_REVIEWS_RATE_THE_APP = "AppReviews: Rate The App";
+        // WhatsNew events
+        String WHATS_NEW_CLOSE = "WhatsNew: Close";
+        String WHATS_NEW_DONE = "WhatsNew: Done";
     }
 
     /**
@@ -444,5 +538,15 @@ public interface Analytics {
                     return "other";
             }
         }
+    }
+
+    /**
+     * Defines the analytics events that need to be fired.
+     */
+    interface OnEventListener {
+        /**
+         * Fires a screen event.
+         */
+        void fireScreenEvent();
     }
 }
