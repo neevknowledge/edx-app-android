@@ -82,6 +82,12 @@
             android:theme="@style/AppTheme.NoActionBar.TranslucentStatusBar" />
 
         <activity
+            android:name="org.edx.mobile.view.schedule.Online"
+            android:label="Online"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.TranslucentStatusBar" />
+
+        <activity
             android:name="org.edx.mobile.view.progress.Progress"
             android:label="@string/progress_title"
             android:screenOrientation="portrait"

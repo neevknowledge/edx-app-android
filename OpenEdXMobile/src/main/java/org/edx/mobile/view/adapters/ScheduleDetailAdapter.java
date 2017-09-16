@@ -2,10 +2,12 @@ package org.edx.mobile.view.adapters;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,17 +55,19 @@ public class ScheduleDetailAdapter extends RecyclerView.Adapter<ScheduleDetailAd
             //current date
             holder.date.setText("Today");
             holder.month.setText(month(Integer.parseInt(dt[1])));
-            holder.month.setBackgroundColor(context.getColor(android.R.color.holo_green_dark));
+            holder.month.setBackgroundColor(context.getResources().getColor(R.color.green));
             if (itm.getStatus().equalsIgnoreCase("Confirmed")) {
                 holder.status.setTypeface(Typeface.DEFAULT_BOLD);
                 holder.status.setText(itm.getStatus());
-                holder.status.setTextColor(context.getColor(android.R.color.holo_green_light));
+                holder.status.setTextColor(context.getResources().getColor(R.color.green));
             }
             else {
                 holder.status.setText(itm.getStatus());
                 holder.status.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-                holder.status.setTextColor(context.getColor(android.R.color.holo_red_dark));
+                holder.status.setTextColor(context.getResources().getColor(android.R.color.holo_red_dark));
             }
+
+
         }
         else if (cur_date.compareToIgnoreCase(itm.getWs_date())>0){
             //past date
@@ -82,17 +86,14 @@ public class ScheduleDetailAdapter extends RecyclerView.Adapter<ScheduleDetailAd
             if (itm.getStatus().equalsIgnoreCase("Confirmed")) {
                 holder.status.setText(itm.getStatus());
                 holder.status.setTypeface(Typeface.DEFAULT_BOLD);
-                holder.status.setTextColor(context.getColor(android.R.color.holo_green_light));
+                holder.status.setTextColor(context.getResources().getColor(R.color.green));
             }
             else {
                 holder.status.setText(itm.getStatus());
                 holder.status.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-                holder.status.setTextColor(context.getColor(android.R.color.holo_red_dark));
+                holder.status.setTextColor(context.getResources().getColor(R.color.red));
             }
         }
-
-
-
 
     }
 
@@ -173,9 +174,22 @@ public class ScheduleDetailAdapter extends RecyclerView.Adapter<ScheduleDetailAd
         tend_time.setText(end_time);
         tfac_name.setText(fac_info);
         ttopic.setText(topic);
-        tvenue.setText(venue_details);
+        if(venue_details.contains("http://")||venue_details.contains("https://")) {
+            tvenue.setText("Click here to register");
+            tvenue.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent in = new Intent(context, Online.class);
+                    in.putExtra("url", venue_details);
+                    context.startActivity(in);
+                    dialog.dismiss();
+                }
+            });
+        }
+        else {
+            tvenue.setText(venue_details);
+        }
 //        status.setText(getIntent().getStringExtra("status"));
-
 //        tstart_time.setKeyListener(null);tend_time.setKeyListener(null);tfac_name.setKeyListener(null);
 //        ttopic.setKeyListener(null);tvenue.setKeyListener(null);
 

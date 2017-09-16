@@ -4,10 +4,12 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -47,7 +50,9 @@ public class Feedback2 extends Fragment {
     FragmentTransaction ft;
     RadioButton ontime, late, class_end_ontime, class_end_early, class_end_late;
     EditText comment;
-    String option1, option2, cmnt="", submitedno="", postdata;
+    String option1, option2, cmnt="", submitedno="", postdata, resCode="";
+    View loadingIndicator;
+    Button submit;
 
     @Nullable
     @Override
@@ -61,6 +66,7 @@ public class Feedback2 extends Fragment {
         class_end_early = (RadioButton) v.findViewById(R.id.rb_class_end_early);
         class_end_late = (RadioButton) v.findViewById(R.id.rb_class_end_late);
         comment = (EditText) v.findViewById(R.id.comment_et);
+        loadingIndicator = v.findViewById(R.id.loading_indicator);
 
         submitedno= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
 
@@ -73,14 +79,15 @@ public class Feedback2 extends Fragment {
 //                ft.replace(R.id.container, new FeedBack()).commit();
 //            }
 //        });
-        v.findViewById(R.id.btn_submit).setOnClickListener(new View.OnClickListener() {
+        submit = (Button)v.findViewById(R.id.btn_submit);
+        submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (comment.getText().length() == 0) {
                     comment.setError("Comment is required.");
                 } else {
-                    option1 = class_end_ontime.isChecked() ? "1" : class_end_early.isChecked() ? "2" : class_end_late.isChecked() ? "3" : "0";
-                    option2 = ontime.isChecked() ? "1" : late.isChecked() ? "2" : "0";
+                    option1 = class_end_ontime.isChecked() ? "2" : class_end_early.isChecked() ? "3" : class_end_late.isChecked() ? "1" : "0";
+                    option2 = ontime.isChecked() ? "2" : late.isChecked() ? "1" : "0";
 
                     new Post_Feedback().execute();
                     cmnt=comment.getText().toString();
@@ -95,15 +102,18 @@ public class Feedback2 extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            loadingIndicator.setVisibility(View.VISIBLE);
+            submit.setEnabled(false);
         }
 
         @Override
         protected String doInBackground(String... strings) {
+
             ApiConstants.COURSE_URL = null;
             try {
                postdata  = URLDecoder.decode("&f1="+GetSetAnswer.getAns1()+"&f2="+GetSetAnswer.getAns2()+
                        "&f3="+GetSetAnswer.getAns3()+"&f4="+GetSetAnswer.getAns4()+"&f5="+GetSetAnswer.getAns5()+"&f6="+GetSetAnswer.getAns6()+
-                       "&f7="+GetSetAnswer.getAns7()+"&f8="+Integer.parseInt(option1)+"&f9="+Integer.parseInt(option2)+"&f10="+cmnt+"&wsid="+GetSetFeedback.getWs_id()+
+                       "&f7="+GetSetAnswer.getAns7()+"&f8="+Integer.parseInt(option2)+"&f9="+Integer.parseInt(option1)+"&f10="+cmnt+"&wsid="+GetSetFeedback.getWs_id()+
                        "&wsdateid="+GetSetFeedback.getWsdate_id()+"&batchcode="+GetSetFeedback.getBatch_code()+
                        "&facultyid="+GetSetFeedback.getFac_id()+"&studentname="+ScheduleData.getuName()+
                        "&studentemail="+ScheduleData.getScheduler_email()+"&wsfeedbackdate="+GetSetFeedback.getWs_date()+"&submittedon="+ submitedno, "utf-8");
@@ -120,6 +130,7 @@ public class Feedback2 extends Fragment {
                 urlConnection.setRequestProperty("Content-Type", "application/json");
                urlConnection.connect();
                 int responseCode = urlConnection.getResponseCode();
+                resCode= String.valueOf(responseCode);
                 if (responseCode == 200) {
                     try {
 //                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
@@ -140,18 +151,20 @@ public class Feedback2 extends Fragment {
                 Log.e("ERROR", e.getMessage(), e);
                 return null;
             }
-            return null;
+            return resCode;
         }
 
         @Override
         protected void onPostExecute(String response) {
             super.onPostExecute(response);
-            dialog();
-            if (response == null) {
-                response = "THERE WAS AN ERROR";
+            Log.i("INFO", response);
+            if (response.equalsIgnoreCase("200")) {
+                dialog();
             } else {
-                Log.i("INFO", response);
+                Snackbar.make(getView(), "Network Error",Snackbar.LENGTH_LONG).show();
             }
+            loadingIndicator.setVisibility(View.GONE);
+            submit.setEnabled(true);
         }
     }
 

@@ -129,87 +129,87 @@ public class FeedBack extends Fragment {
         switch (qwe){
             case "q1":
                 if(q1_rb1.isChecked())
-                    option1=1;
+                    option1=5;
                 if(q1_rb2.isChecked())
-                    option1=2;
+                    option1=4;
                 if(q1_rb3.isChecked())
                     option1=3;
                 if(q1_rb4.isChecked())
-                    option1=4;
+                    option1=2;
                 if(q1_rb5.isChecked())
-                    option1=5;
+                    option1=1;
                 break;
             case "q2":
                 if(q2_rb1.isChecked())
-                    option2=1;
+                    option2=5;
                 if(q2_rb2.isChecked())
-                    option2=2;
+                    option2=4;
                 if(q2_rb3.isChecked())
                     option2=3;
                 if(q2_rb4.isChecked())
-                    option2=4;
+                    option2=2;
                 if(q2_rb5.isChecked())
-                    option2=5;
+                    option2=1;
                 break;
             case "q3":
                 if(q3_rb1.isChecked())
-                    option3=1;
+                    option3=5;
                 if(q3_rb2.isChecked())
-                    option3=2;
+                    option3=4;
                 if(q3_rb3.isChecked())
                     option3=3;
                 if(q3_rb4.isChecked())
-                    option3=4;
+                    option3=2;
                 if(q3_rb5.isChecked())
-                    option3=5;
+                    option3=1;
                 break;
             case "q4":
                 if(q4_rb1.isChecked())
-                    option4=1;
+                    option4=5;
                 if(q4_rb2.isChecked())
-                    option4=2;
+                    option4=4;
                 if(q4_rb3.isChecked())
                     option4=3;
                 if(q4_rb4.isChecked())
-                    option4=4;
+                    option4=2;
                 if(q4_rb5.isChecked())
-                    option4=5;
+                    option4=1;
                 break;
             case "q5":
                 if(q5_rb1.isChecked())
-                    option5=1;
+                    option5=5;
                 if(q5_rb2.isChecked())
-                    option5=2;
+                    option5=4;
                 if(q5_rb3.isChecked())
                     option5=3;
                 if(q5_rb4.isChecked())
-                    option5=4;
+                    option5=2;
                 if(q5_rb5.isChecked())
-                    option5=5;
+                    option5=1;
                 break;
             case "q6":
                 if(q6_rb1.isChecked())
-                    option6=1;
+                    option6=5;
                 if(q6_rb2.isChecked())
-                    option6=2;
+                    option6=4;
                 if(q6_rb3.isChecked())
                     option6=3;
                 if(q6_rb4.isChecked())
-                    option6=4;
+                    option6=2;
                 if(q6_rb5.isChecked())
-                    option6=5;
+                    option6=1;
                 break;
             case "q7":
                 if(q7_rb1.isChecked())
-                    option7=1;
+                    option7=5;
                 if(q7_rb2.isChecked())
-                    option7=2;
+                    option7=4;
                 if(q7_rb3.isChecked())
                     option7=3;
                 if(q7_rb4.isChecked())
-                    option7=4;
+                    option7=2;
                 if(q7_rb5.isChecked())
-                    option7=5;
+                    option7=1;
                 break;
         }
     }

@@ -136,10 +136,13 @@ public class PreSchedule extends Fragment {
                     else {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONArray ary = jsonArray.getJSONArray(i);
-                            JSONObject objBatchCode = ary.getJSONObject(i);
-                            ScheduleData sd = new ScheduleData();
-                            sd.setBatch_code(objBatchCode.getString("batch_code"));
-                            sd.setCourse(objBatchCode.getString("course"));
+                            ScheduleData sd = null;
+                            for (int j=0;j<ary.length();j++) {
+                                JSONObject objBatchCode = ary.getJSONObject(j);
+                                 sd= new ScheduleData();
+                                sd.setBatch_code(objBatchCode.getString("batch_code"));
+                                sd.setCourse(objBatchCode.getString("course"));
+                            }
                             data.add(sd);
                         }
                         adapter = new ScheduleAdapter(PreSchedule.this, data);

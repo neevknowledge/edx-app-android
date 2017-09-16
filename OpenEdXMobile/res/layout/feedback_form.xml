@@ -7,11 +7,15 @@
     android:background="@color/com_facebook_picker_search_bar_text">
 
     <TextView
+        android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Please rate the following aspects of today's lecture" />
+        android:text="Please rate the following aspects of today's lecture"
+        android:padding="5sp"
+        android:background="@color/white"/>
 
     <ScrollView
+        android:layout_below="@+id/view"
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
