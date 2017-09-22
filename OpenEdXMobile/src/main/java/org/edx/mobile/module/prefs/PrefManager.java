@@ -2,8 +2,11 @@ package org.edx.mobile.module.prefs;
 
 import android.content.Context;
 import android.content.SharedPreferences.Editor;
+import android.support.annotation.NonNull;
 
 import org.edx.mobile.base.MainApplication;
+
+import java.util.List;
 
 /**
  * This is a Utility for reading and writing to shared preferences.
@@ -113,14 +116,14 @@ public class PrefManager {
     }
 
     /**
-     * Returns float value for the given key, -1 if no value is found.
+     * Returns float value for the given key, -1.0 if no value is found.
      *
      * @param key
      * @return float
      */
     public float getFloat(String key) {
         return context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
-                .getFloat(key, -1);
+                .getFloat(key, -1.0f);
     }
 
     /**
@@ -190,20 +193,35 @@ public class PrefManager {
         public void setPrevNotificationHashKey(String code) {
             super.put(Key.AppNotificationPushHash, code);
         }
+
+        public float getAppRating() {
+            return getFloat(Key.APP_RATING);
+        }
+
+        public void setAppRating(float appRating) {
+            super.put(Key.APP_RATING, appRating);
+        }
+
+        public String getLastRatedVersion() {
+            return getString(Key.LAST_RATED_VERSION);
+        }
+
+        public void setLastRatedVersion(String versionName) {
+            super.put(Key.LAST_RATED_VERSION, versionName);
+        }
+
+        public boolean isWhatsNewShown() {
+            return getBoolean(Key.WHATS_NEW_SHOWN, false);
+        }
+
+        public void setWhatsNewShown(boolean isShown) {
+            super.put(Key.WHATS_NEW_SHOWN, isShown);
+        }
     }
 
     public static class UserPrefManager extends PrefManager {
-
         public UserPrefManager(Context context) {
             super(context, Pref.USER_PREF);
-        }
-
-        public long getLastCourseStructureFetch(String courseId) {
-            return getLong(Key.LAST_COURSE_STRUCTURE_FETCH + "_" + courseId);
-        }
-
-        public void setLastCourseStructureFetch(String courseId, long timestamp) {
-            super.put(Key.LAST_COURSE_STRUCTURE_FETCH + "_" + courseId, timestamp);
         }
 
         public boolean isVideosCacheRestored() {
@@ -228,6 +246,14 @@ public class PrefManager {
 
         public static String[] getAll() {
             return new String[]{LOGIN, WIFI, VIDEOS, FEATURES, APP_INFO, USER_PREF};
+        }
+
+        public static String[] getAllPreferenceFileNames() {
+            String[] preferencesFilesList = PrefManager.Pref.getAll();
+            for (int i = 0; i < preferencesFilesList.length; i++) {
+                preferencesFilesList[i] += ".xml";
+            }
+            return preferencesFilesList;
         }
     }
 
@@ -255,7 +281,6 @@ public class PrefManager {
         public static final String AppNotificationPushHash = "AppNotificationPushHash";
         public static final String AppUpgradeNeedSyncWithParse = "AppUpgradeNeedSyncWithParse";
         public static final String AppSettingNeedSyncWithParse = "AppSettingNeedSyncWithParse";
-        public static final String LAST_COURSE_STRUCTURE_FETCH = "LastCourseStructureFetch";
         /**
          * For downloaded videos to appear in order on the My Videos screen, we need
          * to have the videos' courses data cached. This is the key to a persistent
@@ -263,7 +288,12 @@ public class PrefManager {
          */
         public static final String VIDEOS_CACHE_RESTORED = "VideosCacheRestored";
 
-
+        // Preference to save user app rating
+        public static final String APP_RATING = "APP_RATING";
+        // Preference to save app version when user rated last time
+        public static final String LAST_RATED_VERSION = "LAST_RATED_VERSION";
+        // Preference to keep track if Whats New feature has been shown or not
+        public static final String WHATS_NEW_SHOWN = "WHATS_NEW_SHOWN";
     }
 
     public static final class Value {
@@ -276,9 +306,14 @@ public class PrefManager {
 
     /**
      * Clears all the shared preferences that are used in the app.
+     *
+     * @param exceptions Names of the preferences that need to be skipped while clearing.
      */
-    public static void nukeSharedPreferences() {
+    public static void nukeSharedPreferences(@NonNull List<String> exceptions) {
         for (String prefName : Pref.getAll()) {
+            if (exceptions.contains(prefName)) {
+                continue;
+            }
             MainApplication.application.getSharedPreferences(
                     prefName, Context.MODE_PRIVATE).edit().clear().apply();
         }

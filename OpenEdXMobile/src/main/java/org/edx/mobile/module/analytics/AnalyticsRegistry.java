@@ -35,6 +35,15 @@ public class AnalyticsRegistry implements Analytics {
     @Override
     public void trackScreenView(@NonNull String screenName, @Nullable String courseId,
                                 @Nullable String action, @Nullable Map<String, String> values) {
+        // Remove a key-value pair, if the value for a key is null
+        if (values != null) {
+            for (Map.Entry<String, String> entry : values.entrySet()) {
+                if (entry.getValue() == null) {
+                    values.remove(entry.getKey());
+                }
+            }
+        }
+
         for (Analytics service : services) {
             service.trackScreenView(screenName, courseId, action, values);
         }
@@ -48,9 +57,10 @@ public class AnalyticsRegistry implements Analytics {
     }
 
     @Override
-    public void trackOpenInBrowser(String blockId, String courseId, boolean isSupported) {
+    public void trackOpenInBrowser(String blockId, String courseId, boolean isSupported,
+                                   String minifiedBlockId) {
         for (Analytics service : services) {
-            service.trackOpenInBrowser(blockId, courseId, isSupported);
+            service.trackOpenInBrowser(blockId, courseId, isSupported, minifiedBlockId);
         }
     }
 
@@ -203,9 +213,9 @@ public class AnalyticsRegistry implements Analytics {
     }
 
     @Override
-    public void trackCourseComponentViewed(String blockId, String courseId) {
+    public void trackCourseComponentViewed(String blockId, String courseId, String minifiedBlockId) {
         for (Analytics service : services) {
-            service.trackCourseComponentViewed(blockId, courseId);
+            service.trackCourseComponentViewed(blockId, courseId, minifiedBlockId);
         }
     }
 
@@ -245,14 +255,6 @@ public class AnalyticsRegistry implements Analytics {
     }
 
     @Override
-    public void trackSectionBulkVideoDownload(String enrollmentId, String section,
-                                              long videoCount) {
-        for (Analytics service : services) {
-            service.trackSectionBulkVideoDownload(enrollmentId, section, videoCount);
-        }
-    }
-
-    @Override
     public void trackSubSectionBulkVideoDownload(String section, String subSection,
                                                  String enrollmentId, long videoCount) {
         for (Analytics service : services) {
@@ -281,6 +283,62 @@ public class AnalyticsRegistry implements Analytics {
     public void resetIdentifyUser() {
         for (Analytics service : services) {
             service.resetIdentifyUser();
+        }
+    }
+
+    @Override
+    public void trackAppRatingDialogViewed(String versionName) {
+        for (Analytics service : services) {
+            service.trackAppRatingDialogViewed(versionName);
+        }
+    }
+
+    @Override
+    public void trackAppRatingDialogCancelled(String versionName) {
+        for (Analytics service : services) {
+            service.trackAppRatingDialogCancelled(versionName);
+        }
+    }
+
+    @Override
+    public void trackUserSubmitRating(String versionName, int rating) {
+        for (Analytics service : services) {
+            service.trackUserSubmitRating(versionName, rating);
+        }
+    }
+
+    @Override
+    public void trackUserSendFeedback(String versionName, int rating) {
+        for (Analytics service : services) {
+            service.trackUserSendFeedback(versionName, rating);
+        }
+    }
+
+    @Override
+    public void trackUserMayReviewLater(String versionName, int rating) {
+        for (Analytics service : services) {
+            service.trackUserMayReviewLater(versionName, rating);
+        }
+    }
+
+    @Override
+    public void trackRateTheAppClicked(String versionName, int rating) {
+        for (Analytics service : services) {
+            service.trackRateTheAppClicked(versionName, rating);
+        }
+    }
+
+    @Override
+    public void trackWhatsNewClosed(@NonNull String versionName, int totalViewed, int currentlyViewed, int totalScreens) {
+        for (Analytics service : services) {
+            service.trackWhatsNewClosed(versionName, totalViewed, currentlyViewed, totalScreens);
+        }
+    }
+
+    @Override
+    public void trackWhatsNewSeen(@NonNull String versionName, int totalScreens) {
+        for (Analytics service : services) {
+            service.trackWhatsNewSeen(versionName, totalScreens);
         }
     }
 }

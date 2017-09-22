@@ -72,5 +72,13 @@
         <!--android:textColor="@color/edx_brand_gray_base"-->
         <!--android:textSize="@dimen/edx_base" />-->
 
+    <!--<Button-->
+    <!--android:id="@+id/view_on_web_button"-->
+    <!--style="@style/edX.Widget.RegularButton"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginBottom="20dp"-->
+    <!--android:text="@string/assessment_view_on_web" />-->
+
 </LinearLayout>
 

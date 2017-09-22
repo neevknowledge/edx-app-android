@@ -25,6 +25,7 @@ public class SummaryModel implements Serializable {
     private String video_length;
     private String id;
     private long size;
+    @SerializedName("transcripts")
     private TranscriptModel transcripts;
     private EncodingsModel encodings;
 

@@ -19,6 +19,7 @@ import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 import com.joanzapata.iconify.widget.IconImageView;
 
 import org.edx.mobile.R;
+import org.edx.mobile.base.BaseFragment;
 import org.edx.mobile.core.IEdxEnvironment;
 import org.edx.mobile.logger.Logger;
 import org.edx.mobile.model.api.CourseEntry;
@@ -27,9 +28,6 @@ import org.edx.mobile.module.analytics.AnalyticsRegistry;
 import org.edx.mobile.util.ResourceUtil;
 import org.edx.mobile.util.images.ShareUtils;
 import org.edx.mobile.util.images.TopAnchorFillWidthTransformation;
-
-import org.edx.mobile.base.BaseFragment;
-import org.edx.mobile.view.data_holder.ScheduleData;
 
 public class CourseDashboardFragment extends BaseFragment {
     static public String TAG = CourseHandoutFragment.class.getCanonicalName();
@@ -58,7 +56,6 @@ public class CourseDashboardFragment extends BaseFragment {
         if (courseData != null) {
             isCoursewareAccessible = courseData.getCourse().getCoursewareAccess().hasAccess();
         }
-        ScheduleData.setCourse_URL(courseData.getCourse().getId());
     }
 
     @Override
@@ -115,6 +112,20 @@ public class CourseDashboardFragment extends BaseFragment {
                 }
             });
 
+            if (environment.getConfig().isCourseVideosEnabled()) {
+                holder = createViewHolder(inflater, parent);
+
+                holder.typeView.setIcon(FontAwesomeIcons.fa_film);
+                holder.titleView.setText(R.string.videos_title);
+                holder.subtitleView.setText(R.string.videos_subtitle);
+                holder.rowView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        environment.getRouter().showCourseContainerOutline(getActivity(),
+                                courseData, true);
+                    }
+                });
+            }
 
             if (courseData != null
                     && !TextUtils.isEmpty(courseData.getCourse().getDiscussionUrl())
@@ -145,29 +156,31 @@ public class CourseDashboardFragment extends BaseFragment {
                 }
             });
 
-//            holder = createViewHolder(inflater, parent);
-//
-//            holder.typeView.setIcon(FontAwesomeIcons.fa_bullhorn);
-//            holder.titleView.setText(R.string.announcement_title);
-//            holder.subtitleView.setText(R.string.announcement_subtitle);
-//            holder.rowView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (courseData != null)
-//                        environment.getRouter().showCourseAnnouncement(getActivity(), courseData);
-//                }
-//            });
-            if(courseData.getCourse().getName().contains("Online")){
-            }else {
+            holder = createViewHolder(inflater, parent);
+
+            holder.typeView.setIcon(FontAwesomeIcons.fa_bullhorn);
+            holder.titleView.setText(R.string.announcement_title);
+            holder.subtitleView.setText(R.string.announcement_subtitle);
+            holder.rowView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (courseData != null)
+                        environment.getRouter().showCourseAnnouncement(getActivity(), courseData);
+                }
+            });
+
+            if (environment.getConfig().isCourseDatesEnabled()) {
                 holder = createViewHolder(inflater, parent);
-                holder.typeView.setIcon(FontAwesomeIcons.fa_calendar_o);
-                holder.titleView.setText(R.string.schedule_title);
-                holder.subtitleView.setText(R.string.schedule_subtitle);
+
+                holder.typeView.setIcon(FontAwesomeIcons.fa_calendar);
+                holder.titleView.setText(R.string.course_dates_title);
+                holder.subtitleView.setText(R.string.course_dates_subtitle);
                 holder.rowView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (courseData != null)
-                            environment.getRouter().showCourseSchedule(getActivity(), courseData);
+                        if (courseData != null) {
+                            environment.getRouter().showCourseDatesActivity(getActivity(), courseData);
+                        }
                     }
                 });
             }
@@ -219,24 +232,38 @@ public class CourseDashboardFragment extends BaseFragment {
                     @Override
                     public void onMenuItemClick(@NonNull ComponentName componentName, @NonNull ShareUtils.ShareType shareType) {
                         final String shareText;
-                        final String twitterTag = environment.getConfig().getTwitterConfig().getHashTag();
-                        if (shareType == ShareUtils.ShareType.TWITTER && !TextUtils.isEmpty(twitterTag)) {
-                            shareText = ResourceUtil.getFormattedString(
-                                    getResources(),
-                                    R.string.share_course_message,
-                                    "platform_name",
-                                    twitterTag).toString() + "\n" + courseData.getCourse().getCourse_about();
-
-                        } else {
+                        if (shareType == ShareUtils.ShareType.UNKNOWN) {
                             shareText = shareTextWithPlatformName;
+                        } else {
+                            shareText = getSharingText(shareType);
                         }
                         analyticsRegistry.courseDetailShared(courseData.getCourse().getId(), shareText, shareType);
                         final Intent intent = ShareUtils.newShareIntent(shareText);
                         intent.setComponent(componentName);
                         startActivity(intent);
                     }
-                },
-                R.string.share_course_popup_header);
+
+                    @NonNull
+                    private String getSharingText(@NonNull ShareUtils.ShareType shareType) {
+                        String courseUrl = courseData.getCourse().getCourse_about();
+                        if (!TextUtils.isEmpty(shareType.getUtmParamKey())) {
+                            final String utmParams = courseData.getCourse().getCourseSharingUtmParams(shareType.getUtmParamKey());
+                            if (!TextUtils.isEmpty(utmParams)) {
+                                courseUrl += "?" + utmParams;
+                            }
+                        }
+                        final String platform;
+                        final String twitterTag = environment.getConfig().getTwitterConfig().getHashTag();
+                        if (shareType == ShareUtils.ShareType.TWITTER && !TextUtils.isEmpty(twitterTag)) {
+                            platform = twitterTag;
+                        } else {
+                            platform = getString(R.string.platform_name);
+                        }
+                        return ResourceUtil.getFormattedString(
+                                getResources(), R.string.share_course_message, "platform_name", platform).toString() +
+                                "\n" + courseUrl;
+                    }
+                });
     }
 
     private ViewHolder createViewHolder(LayoutInflater inflater, LinearLayout parent) {

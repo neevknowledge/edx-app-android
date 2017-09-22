@@ -56,13 +56,15 @@ public class CourseOutlineAdapter extends BaseAdapter {
     private IStorage storage;
     private DownloadListener mDownloadListener;
     private Config config;
+    private boolean isVideoMode;
 
     public CourseOutlineAdapter(Context context, Config config, IDatabase dbStore, IStorage storage,
-                                DownloadListener listener) {
+                                DownloadListener listener, boolean isVideoMode) {
         this.config = config;
         this.dbStore = dbStore;
         this.storage = storage;
         this.mDownloadListener = listener;
+        this.isVideoMode = isVideoMode;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mData = new ArrayList();
     }
@@ -156,11 +158,15 @@ public class CourseOutlineAdapter extends BaseAdapter {
             List<IBlock> children = rootComponent.getChildren();
             for (IBlock block : children) {
                 CourseComponent comp = (CourseComponent) block;
+                if (isVideoMode && comp.getVideos().size() == 0)
+                    continue;
                 if (comp.isContainer()) {
                     SectionRow header = new SectionRow(SectionRow.SECTION, comp);
                     mData.add(header);
                     for (IBlock childBlock : comp.getChildren()) {
                         CourseComponent child = (CourseComponent) childBlock;
+                        if (isVideoMode && child.getVideos().size() == 0)
+                            continue;
                         SectionRow row = new SectionRow(SectionRow.ITEM, false, child);
                         mData.add(row);
                     }
@@ -479,7 +485,7 @@ public class CourseOutlineAdapter extends BaseAdapter {
                 .findViewById(R.id.row_subtitle);
         holder.rowSubtitleIcon = (IconImageView) convertView
                 .findViewById(R.id.row_subtitle_icon);
-        holder.rowSubtitleIcon.setIconColorResource(R.color.edx_brand_gray_back);
+        holder.rowSubtitleIcon.setIconColorResource(R.color.edx_brand_primary_base);
         holder.noOfVideos = (TextView) convertView
                 .findViewById(R.id.no_of_videos);
         holder.bulkDownload = (IconImageView) convertView

@@ -61,7 +61,7 @@ public class LoginPrefs {
         setSubtitleLanguage(null);
         pref.put(PrefManager.Key.PROFILE_JSON, null);
         pref.put(PrefManager.Key.AUTH_JSON, null);
-        EdxCookieManager.getSharedInstance().clearWebWiewCookie(MainApplication.instance());
+        EdxCookieManager.getSharedInstance(MainApplication.instance()).clearWebWiewCookie();
     }
 
     public void saveSocialLoginToken(@NonNull String accessToken, @NonNull String backend) {
@@ -80,7 +80,7 @@ public class LoginPrefs {
     @Nullable
     public String getSubtitleLanguage() {
         final String lang = pref.getString(PrefManager.Key.TRANSCRIPT_LANGUAGE);
-        if (android.text.TextUtils.isEmpty(lang) || lang.equalsIgnoreCase("none")) {
+        if (android.text.TextUtils.isEmpty(lang)) {
             return null;
         }
         return lang;

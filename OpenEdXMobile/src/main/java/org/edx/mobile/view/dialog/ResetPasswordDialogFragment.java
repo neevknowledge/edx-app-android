@@ -16,8 +16,8 @@ import com.google.inject.Inject;
 import org.edx.mobile.R;
 import org.edx.mobile.authentication.LoginService;
 import org.edx.mobile.databinding.ResetPasswordDialogBinding;
-import org.edx.mobile.http.CallTrigger;
-import org.edx.mobile.http.ErrorHandlingCallback;
+import org.edx.mobile.http.callback.CallTrigger;
+import org.edx.mobile.http.callback.ErrorHandlingCallback;
 import org.edx.mobile.interfaces.OnActivityResultListener;
 import org.edx.mobile.model.api.ResetPasswordResponse;
 import org.edx.mobile.util.InputValidationUtil;
@@ -114,8 +114,7 @@ public class ResetPasswordDialogFragment extends RoboDialogFragment {
             setUiForInteraction(false);
             binding.emailInputLayout.setError(null);
             resetCall = loginService.resetPassword(email);
-            resetCall.enqueue(new ErrorHandlingCallback<ResetPasswordResponse>(
-                    getContext(), CallTrigger.USER_ACTION) {
+            resetCall.enqueue(new ErrorHandlingCallback<ResetPasswordResponse>(getContext()) {
                 @Override
                 protected void onResponse(@NonNull final ResetPasswordResponse result) {
                     setUiForInteraction(true);

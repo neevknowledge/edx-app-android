@@ -172,7 +172,8 @@ public class CourseUnitNavigationActivity extends CourseBaseActivity implements 
 
         environment.getAnalyticsRegistry().trackScreenView(
                 Analytics.Screens.UNIT_DETAIL, courseData.getCourse().getId(), selectedUnit.getInternalName());
-        environment.getAnalyticsRegistry().trackCourseComponentViewed(selectedUnit.getId(), courseData.getCourse().getId());
+        environment.getAnalyticsRegistry().trackCourseComponentViewed(selectedUnit.getId(),
+                courseData.getCourse().getId(), selectedUnit.getBlockId());
     }
 
     private void tryToUpdateForEndOfSequential() {
@@ -226,8 +227,15 @@ public class CourseUnitNavigationActivity extends CourseBaseActivity implements 
         // unitList.addAll( courseComponent.getChildLeafs() );
         List<CourseComponent> leaves = new ArrayList<>();
 
-        PrefManager.UserPrefManager userPrefManager = new PrefManager.UserPrefManager(MainApplication.instance());
-        selectedUnit.getRoot().fetchAllLeafComponents(leaves, EnumSet.allOf(BlockType.class));
+        boolean isVideoMode = false;
+        if (getIntent() != null) {
+            isVideoMode = getIntent().getExtras().getBoolean(Router.EXTRA_IS_VIDEOS_MODE);
+        }
+        if (isVideoMode) {
+            leaves = selectedUnit.getRoot().getVideos(false);
+        } else {
+            selectedUnit.getRoot().fetchAllLeafComponents(leaves, EnumSet.allOf(BlockType.class));
+        }
         unitList.addAll(leaves);
 
         pagerAdapter.notifyDataSetChanged();
@@ -249,7 +257,8 @@ public class CourseUnitNavigationActivity extends CourseBaseActivity implements 
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         updateUIForOrientation();
-        environment.getAnalyticsRegistry().trackCourseComponentViewed(selectedUnit.getId(), courseData.getCourse().getId());
+        environment.getAnalyticsRegistry().trackCourseComponentViewed(selectedUnit.getId(),
+                courseData.getCourse().getId(), selectedUnit.getBlockId());
     }
 
     private void updateUIForOrientation() {
@@ -273,10 +282,6 @@ public class CourseUnitNavigationActivity extends CourseBaseActivity implements 
     }
 
     protected void showLastAccessedView(View v, String title, View.OnClickListener listener) {
-    }
-
-    @Override
-    protected void onOnline() {
     }
 
     @Override
